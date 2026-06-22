@@ -1,0 +1,1310 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+
+  :root {
+    --g-black: #000000;
+    --g-white: #ffffff;
+    --g-lime: #abf600;
+    --g-lime-soft: #f2fed1;
+    --g-dark: #111111;
+    --g-navy: #1a202c;
+    --g-border: #e2e8f0;
+    --g-shadow-1: rgb(25,26,35) 0px 5px 0px 0px;
+    --g-shadow-2: rgb(25,26,35) 4px 4px 0px 0px;
+    --r-xs: 7px; --r-sm: 7.01px; --r-md: 16px; --r-lg: 40px; --r-xl: 9999px;
+    --dur-fast: 200ms; --dur-norm: 300ms;
+    --font: 'DM Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body, .g-root {
+    font-family: var(--font);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    background: #f7f7f7;
+    color: var(--g-navy);
+  }
+
+  .g-root {
+    padding: 32px 24px;
+    max-width: 900px;
+  }
+
+  /* Section */
+  .section {
+    margin-bottom: 40px;
+  }
+
+  .section-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--g-navy);
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--g-black);
+  }
+
+  /* Token grid */
+  .token-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .token-swatch {
+    border: 2px solid var(--g-black);
+    border-radius: var(--r-xs);
+    overflow: hidden;
+    box-shadow: var(--g-shadow-2);
+  }
+
+  .swatch-color {
+    height: 48px;
+    display: flex;
+    align-items: flex-end;
+    padding: 6px 8px;
+  }
+
+  .swatch-label {
+    background: #fff;
+    padding: 8px;
+    border-top: 2px solid var(--g-black);
+  }
+
+  .swatch-name {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--g-navy);
+  }
+
+  .swatch-token {
+    font-size: 9px;
+    color: #666;
+    font-family: monospace;
+    margin-top: 2px;
+  }
+
+  /* Component demos */
+  .comp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+
+  .comp-box {
+    border: 2px solid var(--g-black);
+    border-radius: var(--r-xs);
+    padding: 16px;
+    background: #fff;
+    box-shadow: var(--g-shadow-2);
+  }
+
+  .comp-box-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 12px;
+  }
+
+  /* Buttons */
+  .btn {
+    font-family: var(--font);
+    font-size: 14px;
+    font-weight: 700;
+    border: 2px solid var(--g-black);
+    border-radius: var(--r-xl);
+    padding: 8px 20px;
+    cursor: pointer;
+    transition: transform var(--dur-fast), box-shadow var(--dur-fast);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    position: relative;
+    outline: none;
+  }
+
+  .btn-primary {
+    background: var(--g-lime);
+    color: var(--g-black);
+    box-shadow: var(--g-shadow-1);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: rgb(25,26,35) 0px 7px 0px 0px;
+  }
+
+  .btn-primary:active {
+    transform: translateY(3px);
+    box-shadow: none;
+  }
+
+  .btn-primary:focus-visible {
+    outline: 3px solid var(--g-lime);
+    outline-offset: 3px;
+  }
+
+  .btn-secondary {
+    background: var(--g-black);
+    color: var(--g-white);
+    box-shadow: var(--g-shadow-1);
+  }
+
+  .btn-secondary:hover {
+    background: #222;
+    transform: translateY(-2px);
+    box-shadow: rgb(25,26,35) 0px 7px 0px 0px;
+  }
+
+  .btn-secondary:active {
+    transform: translateY(3px);
+    box-shadow: none;
+  }
+
+  .btn-secondary:focus-visible {
+    outline: 3px solid var(--g-lime);
+    outline-offset: 3px;
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--g-black);
+    box-shadow: var(--g-shadow-2);
+  }
+
+  .btn-ghost:hover {
+    background: var(--g-lime-soft);
+  }
+
+  .btn-ghost:active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
+  }
+
+  .btn-ghost:focus-visible {
+    outline: 3px solid var(--g-lime);
+    outline-offset: 3px;
+  }
+
+  .btn-disabled {
+    background: #e0e0e0;
+    color: #aaa;
+    border-color: #ccc;
+    box-shadow: none;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .btn-loading {
+    background: var(--g-lime);
+    color: var(--g-black);
+    box-shadow: var(--g-shadow-1);
+    opacity: 0.7;
+    cursor: wait;
+  }
+
+  .btn-error {
+    background: #fff;
+    color: #c00;
+    border-color: #c00;
+    box-shadow: #c00 0px 5px 0px 0px;
+  }
+
+  .btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+
+  /* Badge */
+  .badge {
+    font-size: 11px;
+    font-weight: 700;
+    border: 2px solid var(--g-black);
+    border-radius: var(--r-xl);
+    padding: 2px 10px;
+    display: inline-block;
+  }
+
+  .badge-lime { background: var(--g-lime); color: var(--g-black); }
+  .badge-dark { background: var(--g-black); color: var(--g-white); }
+  .badge-soft { background: var(--g-lime-soft); color: #3a5a00; }
+
+  /* Card */
+  .card {
+    border: 2px solid var(--g-black);
+    border-radius: var(--r-xs);
+    background: #fff;
+    box-shadow: var(--g-shadow-2);
+    padding: 20px;
+    transition: box-shadow var(--dur-fast), transform var(--dur-fast);
+  }
+
+  .card:hover {
+    box-shadow: rgb(25,26,35) 6px 6px 0px 0px;
+    transform: translate(-2px, -2px);
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+
+  .card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--g-navy);
+  }
+
+  .card-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--g-black);
+    margin-bottom: 4px;
+  }
+
+  .card-meta {
+    font-size: 11px;
+    color: #666;
+  }
+
+  /* Input */
+  .input-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+
+  .input-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--g-dark);
+  }
+
+  .input {
+    font-family: var(--font);
+    font-size: 14px;
+    border: 2px solid var(--g-black);
+    border-radius: var(--r-xs);
+    padding: 10px 14px;
+    outline: none;
+    transition: box-shadow var(--dur-fast);
+    background: #fff;
+    color: var(--g-navy);
+    box-shadow: var(--g-shadow-2);
+  }
+
+  .input:hover {
+    border-color: var(--g-black);
+    box-shadow: rgb(25,26,35) 5px 5px 0px 0px;
+  }
+
+  .input:focus {
+    outline: 3px solid var(--g-lime);
+    outline-offset: 2px;
+  }
+
+  .input-error {
+    border-color: #c00;
+    box-shadow: #c00 4px 4px 0px 0px;
+  }
+
+  .input-error:focus {
+    outline-color: #c00;
+  }
+
+  .input-disabled {
+    background: #f0f0f0;
+    color: #aaa;
+    border-color: #ccc;
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+
+  .error-msg {
+    font-size: 11px;
+    color: #c00;
+    font-weight: 600;
+  }
+
+  /* Status dot */
+  .status-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    padding: 6px 0;
+  }
+
+  .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    border: 2px solid var(--g-black);
+    flex-shrink: 0;
+  }
+
+  .dot-active { background: var(--g-lime); }
+  .dot-inactive { background: #e0e0e0; }
+  .dot-error { background: #ff4444; }
+
+  /* Divider */
+  .divider {
+    border: none;
+    border-top: 2px solid var(--g-black);
+    margin: 24px 0;
+  }
+
+  /* Typography scale */
+  .type-row {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--g-border);
+  }
+
+  .type-token {
+    font-size: 9px;
+    font-family: monospace;
+    color: #888;
+    min-width: 100px;
+  }
+
+  .type-spec {
+    font-size: 9px;
+    color: #aaa;
+    font-family: monospace;
+    min-width: 60px;
+  }
+
+  /* Spacing ruler */
+  .space-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .space-bar {
+    background: var(--g-lime);
+    height: 16px;
+    border: 2px solid var(--g-black);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .space-token {
+    font-size: 9px;
+    font-family: monospace;
+    color: #666;
+  }
+
+  /* Radius demo */
+  .radius-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .radius-demo {
+    width: 56px;
+    height: 40px;
+    background: var(--g-lime-soft);
+    border: 2px solid var(--g-black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: 700;
+    color: #444;
+    font-family: monospace;
+    box-shadow: var(--g-shadow-2);
+  }
+
+  /* QA checklist */
+  .qa-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--g-border);
+    font-size: 14px;
+  }
+
+  .qa-check {
+    width: 18px; height: 18px;
+    border: 2px solid var(--g-black);
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .must-tag {
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: var(--r-xl);
+    border: 1.5px solid var(--g-black);
+    flex-shrink: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .tag-must { background: var(--g-black); color: var(--g-white); }
+  .tag-should { background: var(--g-lime-soft); color: #3a5a00; }
+  .tag-never { background: #fff0f0; color: #c00; border-color: #c00; }
+
+  /* Tabs nav */
+  .nav-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 24px;
+    border-bottom: 2px solid var(--g-black);
+    overflow-x: auto;
+  }
+
+  .nav-tab {
+    font-family: var(--font);
+    font-size: 14px;
+    font-weight: 700;
+    padding: 8px 16px;
+    border: 2px solid transparent;
+    border-bottom: none;
+    background: transparent;
+    cursor: pointer;
+    color: #666;
+    border-radius: var(--r-xs) var(--r-xs) 0 0;
+    transition: color var(--dur-fast), background var(--dur-fast);
+    white-space: nowrap;
+  }
+
+  .nav-tab:hover {
+    background: var(--g-lime-soft);
+    color: var(--g-navy);
+  }
+
+  .nav-tab.active {
+    border-color: var(--g-black);
+    border-bottom: 2px solid #fff;
+    background: #fff;
+    color: var(--g-black);
+    margin-bottom: -2px;
+  }
+
+  .nav-tab:focus-visible {
+    outline: 3px solid var(--g-lime);
+    outline-offset: 2px;
+  }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* Anti-pattern */
+  .antipattern {
+    display: flex;
+    gap: 12px;
+    padding: 12px;
+    border: 2px solid #c00;
+    border-radius: var(--r-xs);
+    background: #fff8f8;
+    margin-bottom: 8px;
+  }
+
+  .antipattern-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .antipattern-text {
+    font-size: 13px;
+    color: #c00;
+    font-weight: 600;
+  }
+
+  .antipattern-sub {
+    font-size: 12px;
+    color: #666;
+    font-weight: 400;
+    margin-top: 2px;
+  }
+
+  /* Highlight box */
+  .highlight {
+    background: var(--g-lime);
+    border: 2px solid var(--g-black);
+    border-radius: var(--r-xs);
+    padding: 12px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--g-black);
+    box-shadow: var(--g-shadow-2);
+    margin-bottom: 12px;
+  }
+
+  .mono {
+    font-family: monospace;
+    font-size: 12px;
+    background: #f0f0f0;
+    padding: 2px 5px;
+    border-radius: 3px;
+    border: 1px solid #ddd;
+  }
+</style>
+
+<div class="g-root">
+  <h2 class="sr-only">Grass Design System — Token-Driven UI Guidance for Dashboard Web App</h2>
+
+  <!-- Header -->
+  <div style="margin-bottom:32px;">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+      <div style="background:var(--g-lime);border:2px solid var(--g-black);border-radius:var(--r-xs);padding:6px 14px;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;box-shadow:var(--g-shadow-2);">Grass.io</div>
+      <div style="font-size:11px;color:#888;font-family:monospace;">UI Design Guidelines v1.0</div>
+    </div>
+    <div style="font-size:24px;font-weight:700;color:var(--g-black);line-height:1.2;margin-bottom:4px;">Token-Driven Component System</div>
+    <div style="font-size:14px;color:#555;">Dashboard web app · WCAG 2.2 AA · Neubrutalism</div>
+  </div>
+
+  <!-- Nav tabs -->
+  <div class="nav-tabs" role="tablist">
+    <button class="nav-tab active" role="tab" aria-selected="true" aria-controls="tab-foundations" id="btn-foundations">Foundations</button>
+    <button class="nav-tab" role="tab" aria-selected="false" aria-controls="tab-components" id="btn-components">Components</button>
+    <button class="nav-tab" role="tab" aria-selected="false" aria-controls="tab-states" id="btn-states">States</button>
+    <button class="nav-tab" role="tab" aria-selected="false" aria-controls="tab-access" id="btn-access">Accessibility</button>
+    <button class="nav-tab" role="tab" aria-selected="false" aria-controls="tab-qa" id="btn-qa">QA Checklist</button>
+  </div>
+
+  <!-- TAB: Foundations -->
+  <div class="tab-panel active" id="tab-foundations" role="tabpanel" aria-labelledby="btn-foundations">
+
+    <!-- Design Intent -->
+    <div class="section">
+      <div class="section-label">Design Intent</div>
+      <div class="highlight">Deliver a high-contrast, flat-shadow neubrutalism UI that communicates earning status and network activity with zero ambiguity — every interactive element must be immediately legible and keyboard-operable.</div>
+    </div>
+
+    <!-- Color tokens -->
+    <div class="section">
+      <div class="section-label">Color Tokens</div>
+      <div class="section-title">Color Palette</div>
+      <div class="token-grid">
+        <div class="token-swatch">
+          <div class="swatch-color" style="background:#000000;">
+            <span style="font-size:9px;color:#fff;font-weight:700;">Aa</span>
+          </div>
+          <div class="swatch-label">
+            <div class="swatch-name">Surface Base</div>
+            <div class="swatch-token">color.surface.base<br>#000000</div>
+          </div>
+        </div>
+        <div class="token-swatch">
+          <div class="swatch-color" style="background:#abf600;border-bottom:none;">
+            <span style="font-size:9px;color:#000;font-weight:700;">Aa</span>
+          </div>
+          <div class="swatch-label">
+            <div class="swatch-name">Surface Raised</div>
+            <div class="swatch-token">color.surface.raised<br>#abf600</div>
+          </div>
+        </div>
+        <div class="token-swatch">
+          <div class="swatch-color" style="background:#f2fed1;">
+            <span style="font-size:9px;color:#3a5a00;font-weight:700;">Aa</span>
+          </div>
+          <div class="swatch-label">
+            <div class="swatch-name">Surface Strong</div>
+            <div class="swatch-token">color.surface.strong<br>#f2fed1</div>
+          </div>
+        </div>
+        <div class="token-swatch">
+          <div class="swatch-color" style="background:#ffffff;border-bottom:none;">
+            <span style="font-size:9px;color:#000;font-weight:700;">Aa</span>
+          </div>
+          <div class="swatch-label">
+            <div class="swatch-name">Text Secondary</div>
+            <div class="swatch-token">color.text.secondary<br>#ffffff</div>
+          </div>
+        </div>
+        <div class="token-swatch">
+          <div class="swatch-color" style="background:#111111;">
+            <span style="font-size:9px;color:#fff;font-weight:700;">Aa</span>
+          </div>
+          <div class="swatch-label">
+            <div class="swatch-name">Text Tertiary</div>
+            <div class="swatch-token">color.text.tertiary<br>#111111</div>
+          </div>
+        </div>
+        <div class="token-swatch">
+          <div class="swatch-color" style="background:#1a202c;">
+            <span style="font-size:9px;color:#fff;font-weight:700;">Aa</span>
+          </div>
+          <div class="swatch-label">
+            <div class="swatch-name">Text Inverse</div>
+            <div class="swatch-token">color.text.inverse<br>#1a202c</div>
+          </div>
+        </div>
+        <div class="token-swatch">
+          <div class="swatch-color" style="background:#e2e8f0;">
+            <span style="font-size:9px;color:#1a202c;font-weight:700;">Aa</span>
+          </div>
+          <div class="swatch-label">
+            <div class="swatch-name">Border Default</div>
+            <div class="swatch-token">color.border.default<br>#e2e8f0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shadow tokens -->
+      <div style="margin-top:16px;">
+        <div class="section-label">Shadow Tokens</div>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;">
+          <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-start;">
+            <div style="width:80px;height:40px;background:var(--g-lime);border:2px solid #000;border-radius:var(--r-xs);box-shadow:var(--g-shadow-1);"></div>
+            <span class="mono">shadow.1 — 0px 5px 0px</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-start;">
+            <div style="width:80px;height:40px;background:#fff;border:2px solid #000;border-radius:var(--r-xs);box-shadow:var(--g-shadow-2);"></div>
+            <span class="mono">shadow.2 — 4px 4px 0px</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Typography -->
+    <div class="section">
+      <div class="section-label">Typography</div>
+      <div class="section-title">Scale — DM Sans Variable</div>
+      <div class="type-row"><span class="type-token">font.size.xs</span><span class="type-spec">9px</span><span style="font-size:9px;font-family:var(--font);">Labels, tokens, legal</span></div>
+      <div class="type-row"><span class="type-token">font.size.sm</span><span class="type-spec">11px</span><span style="font-size:11px;font-family:var(--font);">Captions, badges, meta</span></div>
+      <div class="type-row"><span class="type-token">font.size.md</span><span class="type-spec">14px</span><span style="font-size:14px;font-family:var(--font);">Body compact, buttons, inputs</span></div>
+      <div class="type-row"><span class="type-token">font.size.lg</span><span class="type-spec">15.36px</span><span style="font-size:15.36px;font-family:var(--font);">Body default, card content</span></div>
+      <div class="type-row"><span class="type-token">font.size.xl</span><span class="type-spec">16px</span><span style="font-size:16px;font-family:var(--font);font-weight:500;">Base body — 400/24px</span></div>
+      <div class="type-row"><span class="type-token">font.size.2xl</span><span class="type-spec">18px</span><span style="font-size:18px;font-family:var(--font);font-weight:500;">Card titles, section heads</span></div>
+      <div class="type-row"><span class="type-token">font.size.3xl</span><span class="type-spec">20px</span><span style="font-size:20px;font-family:var(--font);font-weight:700;">Page section titles</span></div>
+      <div class="type-row"><span class="type-token">font.size.4xl</span><span class="type-spec">24px</span><span style="font-size:24px;font-family:var(--font);font-weight:700;">Metric values, hero</span></div>
+    </div>
+
+    <!-- Spacing -->
+    <div class="section">
+      <div class="section-label">Spacing</div>
+      <div class="section-title">Spacing Scale</div>
+      <div class="space-row"><div class="space-bar" style="width:2px;"></div><span class="space-token">space.1 = 2px — micro gap</span></div>
+      <div class="space-row"><div class="space-bar" style="width:4px;"></div><span class="space-token">space.2 = 4px — icon-text gap</span></div>
+      <div class="space-row"><div class="space-bar" style="width:6px;"></div><span class="space-token">space.3 = 6px — badge padding</span></div>
+      <div class="space-row"><div class="space-bar" style="width:8px;"></div><span class="space-token">space.4 = 8px — button padding-y, tight list</span></div>
+      <div class="space-row"><div class="space-bar" style="width:10px;"></div><span class="space-token">space.5 = 10px — form row gap</span></div>
+      <div class="space-row"><div class="space-bar" style="width:14px;"></div><span class="space-token">space.6 = 14px — section content gap</span></div>
+      <div class="space-row"><div class="space-bar" style="width:16px;"></div><span class="space-token">space.8 = 16px — card padding, grid gap</span></div>
+    </div>
+
+    <!-- Radius -->
+    <div class="section">
+      <div class="section-label">Border Radius</div>
+      <div class="section-title">Radius Tokens</div>
+      <div class="radius-row">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+          <div class="radius-demo" style="border-radius:7px;">xs<br>7px</div>
+          <span style="font-size:9px;color:#888;font-family:monospace;">Cards, inputs</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+          <div class="radius-demo" style="border-radius:16px;">md<br>16px</div>
+          <span style="font-size:9px;color:#888;font-family:monospace;">Modals</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+          <div class="radius-demo" style="border-radius:40px;width:72px;">lg<br>40px</div>
+          <span style="font-size:9px;color:#888;font-family:monospace;">Section wrap</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+          <div class="radius-demo" style="border-radius:9999px;width:80px;">xl<br>pill</div>
+          <span style="font-size:9px;color:#888;font-family:monospace;">Buttons, badges</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Motion -->
+    <div class="section">
+      <div class="section-label">Motion</div>
+      <div class="section-title">Duration Tokens</div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <div style="border:2px solid #000;border-radius:var(--r-xs);padding:12px 16px;background:#fff;box-shadow:var(--g-shadow-2);min-width:120px;">
+          <div style="font-size:9px;color:#888;font-family:monospace;margin-bottom:4px;">motion.duration.instant</div>
+          <div style="font-size:18px;font-weight:700;">150ms</div>
+          <div style="font-size:11px;color:#666;margin-top:2px;">Focus rings, tooltips</div>
+        </div>
+        <div style="border:2px solid #000;border-radius:var(--r-xs);padding:12px 16px;background:#fff;box-shadow:var(--g-shadow-2);min-width:120px;">
+          <div style="font-size:9px;color:#888;font-family:monospace;margin-bottom:4px;">motion.duration.fast</div>
+          <div style="font-size:18px;font-weight:700;">200ms</div>
+          <div style="font-size:11px;color:#666;margin-top:2px;">Hover, button press</div>
+        </div>
+        <div style="border:2px solid #000;border-radius:var(--r-xs);padding:12px 16px;background:#fff;box-shadow:var(--g-shadow-2);min-width:120px;">
+          <div style="font-size:9px;color:#888;font-family:monospace;margin-bottom:4px;">motion.duration.normal</div>
+          <div style="font-size:18px;font-weight:700;">300ms</div>
+          <div style="font-size:11px;color:#666;margin-top:2px;">Page transitions, cards</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: Components -->
+  <div class="tab-panel" id="tab-components" role="tabpanel" aria-labelledby="btn-components">
+
+    <!-- Buttons -->
+    <div class="section">
+      <div class="section-label">Buttons — 30 instances on dashboard</div>
+      <div class="section-title">Button Variants</div>
+
+      <div class="comp-grid">
+        <div class="comp-box">
+          <div class="comp-box-title">Primary CTA</div>
+          <div class="btn-row">
+            <button class="btn btn-primary">Earn Now</button>
+          </div>
+          <div style="font-size:11px;color:#555;margin-top:10px;line-height:1.5;">
+            <span class="mono">background: color.surface.raised</span><br>
+            <span class="mono">shadow: shadow.1</span><br>
+            <span class="mono">radius: radius.xl</span>
+          </div>
+        </div>
+        <div class="comp-box">
+          <div class="comp-box-title">Secondary</div>
+          <div class="btn-row">
+            <button class="btn btn-secondary">View Rewards</button>
+          </div>
+          <div style="font-size:11px;color:#555;margin-top:10px;line-height:1.5;">
+            <span class="mono">background: color.surface.base</span><br>
+            <span class="mono">color: color.text.secondary</span><br>
+            <span class="mono">shadow: shadow.1</span>
+          </div>
+        </div>
+        <div class="comp-box">
+          <div class="comp-box-title">Ghost / Tertiary</div>
+          <div class="btn-row">
+            <button class="btn btn-ghost">Learn More</button>
+          </div>
+          <div style="font-size:11px;color:#555;margin-top:10px;line-height:1.5;">
+            <span class="mono">background: transparent</span><br>
+            <span class="mono">hover: color.surface.strong</span><br>
+            <span class="mono">shadow: shadow.2</span>
+          </div>
+        </div>
+        <div class="comp-box">
+          <div class="comp-box-title">Disabled</div>
+          <div class="btn-row">
+            <button class="btn btn-disabled" disabled aria-disabled="true">Disabled</button>
+          </div>
+          <div style="font-size:11px;color:#555;margin-top:10px;line-height:1.5;">
+            <span class="mono">opacity: 0.4</span><br>
+            <span class="mono">cursor: not-allowed</span><br>
+            <span class="mono">shadow: none</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;border:2px solid #000;border-radius:var(--r-xs);padding:16px;background:#fff;box-shadow:var(--g-shadow-2);">
+        <div class="comp-box-title" style="margin-bottom:12px;">Button — Keyboard &amp; Pointer Behavior</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;font-size:12px;">
+          <div>
+            <div style="font-weight:700;margin-bottom:6px;">⌨ Keyboard</div>
+            <div style="color:#555;line-height:1.6;">Tab — focus<br>Enter / Space — activate<br>Escape — dismiss (if modal trigger)<br>Arrow — navigate in group</div>
+          </div>
+          <div>
+            <div style="font-weight:700;margin-bottom:6px;">🖱 Pointer</div>
+            <div style="color:#555;line-height:1.6;">Hover — lift effect<br>Mousedown — press + shadow collapse<br>Mouseup — release + animate back<br>Click outside — unfocus</div>
+          </div>
+          <div>
+            <div style="font-weight:700;margin-bottom:6px;">👆 Touch</div>
+            <div style="color:#555;line-height:1.6;">Touch target: min 44×44px<br>Tap — immediate active state<br>Hold — shows pressed state<br>Swipe off — cancel action</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cards -->
+    <div class="section">
+      <div class="section-label">Cards — 8 instances on dashboard</div>
+      <div class="section-title">Metric &amp; Status Cards</div>
+      <div class="comp-grid">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Grass Points</div>
+            <span class="badge badge-lime">Live</span>
+          </div>
+          <div class="card-value">12,840</div>
+          <div class="card-meta">↑ +340 pts today · Uptime contributing</div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Network Status</div>
+            <div class="status-row" style="padding:0;">
+              <div class="dot dot-active"></div>
+              <span style="font-size:11px;font-weight:700;color:#3a5a00;">Active</span>
+            </div>
+          </div>
+          <div class="card-value" style="font-size:18px;">Connected</div>
+          <div class="card-meta">Bandwidth shared: 2.4 GB this session</div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Referrals</div>
+            <span class="badge badge-soft">+Bonus</span>
+          </div>
+          <div class="card-value">7</div>
+          <div class="card-meta">Active referrals earning rewards</div>
+        </div>
+      </div>
+
+      <div style="margin-top:12px;font-size:12px;color:#555;padding:12px;border-left:3px solid var(--g-lime);background:var(--g-lime-soft);border-radius:0 var(--r-xs) var(--r-xs) 0;">
+        <strong>Card anatomy:</strong> border 2px solid #000 · radius.xs · shadow.2 · hover: translateY −2px + shadow expand · focus-visible: 3px lime ring · empty state: dashed border + placeholder text
+      </div>
+    </div>
+
+    <!-- Inputs -->
+    <div class="section">
+      <div class="section-label">Form Inputs</div>
+      <div class="section-title">Text Input Variants</div>
+      <div class="comp-grid">
+        <div class="comp-box">
+          <div class="comp-box-title">Default</div>
+          <div class="input-wrap">
+            <label class="input-label" for="inp-default">Wallet Address</label>
+            <input class="input" id="inp-default" type="text" placeholder="0x..." />
+          </div>
+        </div>
+        <div class="comp-box">
+          <div class="comp-box-title">Error</div>
+          <div class="input-wrap">
+            <label class="input-label" for="inp-error">Wallet Address</label>
+            <input class="input input-error" id="inp-error" type="text" value="invalid" aria-invalid="true" aria-describedby="inp-err-msg" />
+            <span class="error-msg" id="inp-err-msg" role="alert">⚠ Invalid wallet address format</span>
+          </div>
+        </div>
+        <div class="comp-box">
+          <div class="comp-box-title">Disabled</div>
+          <div class="input-wrap">
+            <label class="input-label" for="inp-dis">Referral Code</label>
+            <input class="input input-disabled" id="inp-dis" type="text" value="GRASS-REF-2024" disabled />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Badges -->
+    <div class="section">
+      <div class="section-label">Badges &amp; Status</div>
+      <div class="section-title">Badge Variants</div>
+      <div class="comp-box" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+        <span class="badge badge-lime">Live</span>
+        <span class="badge badge-dark">Pending</span>
+        <span class="badge badge-soft">+Bonus</span>
+        <div class="status-row">
+          <div class="dot dot-active"></div>
+          <span style="font-size:13px;">Active</span>
+        </div>
+        <div class="status-row">
+          <div class="dot dot-inactive"></div>
+          <span style="font-size:13px;">Idle</span>
+        </div>
+        <div class="status-row">
+          <div class="dot dot-error"></div>
+          <span style="font-size:13px;">Disconnected</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Links -->
+    <div class="section">
+      <div class="section-label">Links — 34 instances on dashboard</div>
+      <div class="section-title">Link Rules</div>
+      <div class="comp-box">
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div>
+            <a href="#" style="color:#000;font-size:14px;font-weight:700;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px;outline:none;" onfocus="this.style.outlineColor='#abf600'" onblur="this.style.outline='none'">Learn about Grass Points →</a>
+            <div style="font-size:11px;color:#888;margin-top:2px;">Inline body link — underline 2px, offset 3px</div>
+          </div>
+          <div>
+            <a href="#" style="color:#000;font-size:14px;font-weight:700;padding:4px 12px;border:2px solid #000;border-radius:9999px;text-decoration:none;display:inline-block;box-shadow:var(--g-shadow-2);">View Dashboard ↗</a>
+            <div style="font-size:11px;color:#888;margin-top:4px;">Link as button — use btn styles, role="link"</div>
+          </div>
+        </div>
+        <div style="margin-top:12px;padding:10px;background:var(--g-lime-soft);border:1.5px solid #000;border-radius:var(--r-xs);font-size:12px;color:#3a5a00;">
+          Links must never rely on color alone — underline or border required. Focus-visible ring: 3px solid color.surface.raised at offset 2px.
+        </div>
+      </div>
+    </div>
+
+    <!-- List -->
+    <div class="section">
+      <div class="section-label">List — 1 instance on dashboard</div>
+      <div class="section-title">Earnings History List</div>
+      <div class="comp-box">
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:0;" role="list">
+          <li style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1.5px solid var(--g-border);">
+            <div>
+              <div style="font-size:14px;font-weight:700;">Network Points Earned</div>
+              <div style="font-size:11px;color:#666;margin-top:2px;">Today, 14:32 UTC</div>
+            </div>
+            <span class="badge badge-lime">+240 pts</span>
+          </li>
+          <li style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1.5px solid var(--g-border);">
+            <div>
+              <div style="font-size:14px;font-weight:700;">Referral Bonus</div>
+              <div style="font-size:11px;color:#666;margin-top:2px;">Yesterday, 09:15 UTC</div>
+            </div>
+            <span class="badge badge-soft">+120 pts</span>
+          </li>
+          <li style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;">
+            <div>
+              <div style="font-size:14px;font-weight:700;">Uptime Reward</div>
+              <div style="font-size:11px;color:#666;margin-top:2px;">2 days ago, 00:00 UTC</div>
+            </div>
+            <span class="badge badge-dark">+80 pts</span>
+          </li>
+        </ul>
+        <div style="font-size:11px;color:#888;margin-top:8px;">Empty state: center-aligned illustration + "No activity yet — keep Grass running to earn." Copy must include actionable next step.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: States -->
+  <div class="tab-panel" id="tab-states" role="tabpanel" aria-labelledby="btn-states">
+    <div class="section">
+      <div class="section-label">Component State Matrix</div>
+      <div class="section-title">All Required States</div>
+
+      <div style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;font-size:13px;">
+          <thead>
+            <tr style="background:var(--g-black);color:#fff;">
+              <th style="padding:10px 12px;text-align:left;font-weight:700;border:2px solid #000;">State</th>
+              <th style="padding:10px 12px;text-align:left;font-weight:700;border:2px solid #000;">Button Primary</th>
+              <th style="padding:10px 12px;text-align:left;font-weight:700;border:2px solid #000;">Input</th>
+              <th style="padding:10px 12px;text-align:left;font-weight:700;border:2px solid #000;">Card</th>
+              <th style="padding:10px 12px;text-align:left;font-weight:700;border:2px solid #000;">Link</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:#fff;border:1px solid var(--g-border);">
+              <td style="padding:10px 12px;font-weight:700;border:1px solid #000;">Default</td>
+              <td style="padding:10px 12px;border:1px solid #000;color:#555;">bg: raised · shadow.1</td>
+              <td style="padding:10px 12px;border:1px solid #000;color:#555;">border 2px · shadow.2</td>
+              <td style="padding:10px 12px;border:1px solid #000;color:#555;">border 2px · shadow.2</td>
+              <td style="padding:10px 12px;border:1px solid #000;color:#555;">underline 2px</td>
+            </tr>
+            <tr style="background:var(--g-lime-soft);border:1px solid #000;">
+              <td style="padding:10px 12px;font-weight:700;border:1px solid #000;">Hover</td>
+              <td style="padding:10px 12px;border:1px solid #000;color:#3a5a00;">translateY −2px · shadow grow</td>
+              <td style="padding:10px 12px;border:1px solid #000;color:#3a5a00;">shadow.2 expand</td>
+              <td style="padding:10px 12px;border:1px solid #000;color:#3a5a00;">translate(−2,−2) · shadow 6px</td>
+              <td style="padding:10px 12px;border:1px solid #000;color:#3a5a00;">bg: surface.strong</td>
+            </tr>
+            <tr style="background:#fff;border:1px solid #000;">
+              <td style="padding:10px 12px;font-weight:700;border:1px solid #000;">Focus-visible</td>
+              <td style="padding:10px 12px;border:1px solid #000;color:#555;">3px lime ring, offset 3px</td>
+              <td style="padding:10px 12px;border:1px solid #000;color:#555;">3px lime ring, offset 2px</td>
+              <td style="padding:10px 12px;border:1px solid #000;color:#555;">3px lime ring</td>
+              <td style="padding:10px 12px;border:1px solid #000;color:#555;">3px lime ring, offset 2px</td>
+            </tr>
+            <tr style="background:var(--g-lime-soft);border:1px solid #000;">
+              <td style="padding:10px 12px;font-weight:700;border:1px solid #000;">Active</td>
+              <td style="padding:10px 12px;border:1px solid #000;color:#3a5a00;">translateY +3px · shadow none</td>
+              <td style="padding:10px 12px;border:1px solid #000;color:#3a5a00;">border color: text.tertiary</td>
+              <td style="padding:10px 12px;border:1px solid #000;color:#3a5a00;">translate(2,2) · shadow none</td>
+              <td style="padding:10px 12px;border:1px solid #000;color:#3a5a00;">underline 3px</td>
+            </tr>
+            <tr style="background:#fff;border:1px solid #000;">
+              <td style="padding:10px 12px;font-weight:700;border:1px solid #000;">Disabled</td>
+              <td style="padding:10px 12px;border:1px solid #000;color:#555;">opacity 0.4 · cursor not-allowed</td>
+              <td style="padding:10px 12px;border:1px solid #000;color:#555;">bg: #f0f0f0 · no shadow</td>
+              <td style="padding:10px 12px;border:1px solid #000;color:#555;">opacity 0.5 · no hover</td>
+              <td style="padding:10px 12px;border:1px solid #000;color:#555;">color: #aaa · no underline</td>
+            </tr>
+            <tr style="background:var(--g-lime-soft);border:1px solid #000;">
+              <td style="padding:10px 12px;font-weight:700;border:1px solid #000;">Loading</td>
+              <td style="padding:10px 12px;border:1px solid #000;color:#3a5a00;">opacity 0.7 · spinner icon · aria-busy</td>
+              <td style="padding:10px 12px;border:1px solid #000;color:#3a5a00;">spinner suffix · pointer-events none</td>
+              <td style="padding:10px 12px;border:1px solid #000;color:#3a5a00;">skeleton shimmer · aria-busy</td>
+              <td style="padding:10px 12px;border:1px solid #000;color:#3a5a00;">pointer-events none</td>
+            </tr>
+            <tr style="background:#fff8f8;border:1px solid #000;">
+              <td style="padding:10px 12px;font-weight:700;border:1px solid #000;color:#c00;">Error</td>
+              <td style="padding:10px 12px;border:1px solid #000;color:#c00;">border: #c00 · shadow: #c00 5px</td>
+              <td style="padding:10px 12px;border:1px solid #000;color:#c00;">border: #c00 · error msg below</td>
+              <td style="padding:10px 12px;border:1px solid #000;color:#c00;">border: #c00 · error badge</td>
+              <td style="padding:10px 12px;border:1px solid #000;color:#c00;">color: #c00 · strike pattern</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: Accessibility -->
+  <div class="tab-panel" id="tab-access" role="tabpanel" aria-labelledby="btn-access">
+    <div class="section">
+      <div class="section-label">WCAG 2.2 AA — Testable Criteria</div>
+      <div class="section-title">Accessibility Requirements</div>
+
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div class="qa-item">
+          <span class="must-tag tag-must">must</span>
+          <div>
+            <div style="font-weight:600;">Color contrast ≥ 4.5:1 for body text, ≥ 3:1 for large text</div>
+            <div style="font-size:12px;color:#666;margin-top:2px;">Test: lime (#abf600) on black (#000) = 8.59:1 ✓ · white on black = 21:1 ✓ · lime on white = 1.7:1 — do not use for body text</div>
+          </div>
+        </div>
+        <div class="qa-item">
+          <span class="must-tag tag-must">must</span>
+          <div>
+            <div style="font-weight:600;">Focus-visible ring must be 3px solid color.surface.raised (#abf600) on all interactive elements</div>
+            <div style="font-size:12px;color:#666;margin-top:2px;">Test: Tab through page — every element must show visible focus indicator. Use :focus-visible not :focus.</div>
+          </div>
+        </div>
+        <div class="qa-item">
+          <span class="must-tag tag-must">must</span>
+          <div>
+            <div style="font-weight:600;">Buttons must have accessible name via aria-label or visible text</div>
+            <div style="font-size:12px;color:#666;margin-top:2px;">Test: Axe DevTools — zero "button name" violations. Icon-only buttons require aria-label.</div>
+          </div>
+        </div>
+        <div class="qa-item">
+          <span class="must-tag tag-must">must</span>
+          <div>
+            <div style="font-weight:600;">Error messages must use role="alert" and reference input via aria-describedby</div>
+            <div style="font-size:12px;color:#666;margin-top:2px;">Test: Trigger error state — screen reader must announce error without user action.</div>
+          </div>
+        </div>
+        <div class="qa-item">
+          <span class="must-tag tag-must">must</span>
+          <div>
+            <div style="font-weight:600;">Touch targets must be minimum 44×44px</div>
+            <div style="font-size:12px;color:#666;margin-top:2px;">Test: Mobile emulation → Lighthouse audit → no small tap target warnings.</div>
+          </div>
+        </div>
+        <div class="qa-item">
+          <span class="must-tag tag-must">must</span>
+          <div>
+            <div style="font-weight:600;">Status indicators must not rely on color alone</div>
+            <div style="font-size:12px;color:#666;margin-top:2px;">Test: Simulate color blindness filter — Active/Idle/Error must remain distinguishable via shape, label, or pattern.</div>
+          </div>
+        </div>
+        <div class="qa-item">
+          <span class="must-tag tag-should">should</span>
+          <div>
+            <div style="font-weight:600;">Loading states should include aria-busy="true" and sr-only status text</div>
+            <div style="font-size:12px;color:#666;margin-top:2px;">Test: Trigger loading → screen reader should announce "Loading…" without visual dependency.</div>
+          </div>
+        </div>
+        <div class="qa-item">
+          <span class="must-tag tag-should">should</span>
+          <div>
+            <div style="font-weight:600;">Cards should use article or section with heading hierarchy</div>
+            <div style="font-size:12px;color:#666;margin-top:2px;">Test: Headings map (Axe) — card titles appear at correct h-level.</div>
+          </div>
+        </div>
+        <div class="qa-item">
+          <span class="must-tag tag-never">never</span>
+          <div>
+            <div style="font-weight:600;">Never use lime (#abf600) as text on white background — contrast fails at 1.7:1</div>
+            <div style="font-size:12px;color:#666;margin-top:2px;">Lime is for backgrounds and accents only. Text on lime must be black (#000).</div>
+          </div>
+        </div>
+        <div class="qa-item">
+          <span class="must-tag tag-never">never</span>
+          <div>
+            <div style="font-weight:600;">Never hide focus outline or set outline: none without focus-visible replacement</div>
+            <div style="font-size:12px;color:#666;margin-top:2px;">Test: Keyboard-only navigation — every focused element is visually distinct.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Anti-patterns -->
+    <div class="section">
+      <div class="section-label">Anti-patterns</div>
+      <div class="section-title">Prohibited Implementations</div>
+      <div class="antipattern">
+        <div class="antipattern-icon">✕</div>
+        <div>
+          <div class="antipattern-text">Raw hex values in component code — use semantic tokens only</div>
+          <div class="antipattern-sub">Bad: background: #abf600 · Good: background: var(--color-surface-raised)</div>
+        </div>
+      </div>
+      <div class="antipattern">
+        <div class="antipattern-icon">✕</div>
+        <div>
+          <div class="antipattern-text">One-off spacing values — no ad-hoc margins like margin: 13px</div>
+          <div class="antipattern-sub">Use space.* tokens only: space.1 through space.8</div>
+        </div>
+      </div>
+      <div class="antipattern">
+        <div class="antipattern-icon">✕</div>
+        <div>
+          <div class="antipattern-text">Ambiguous button labels — "Click here", "Submit", "OK"</div>
+          <div class="antipattern-sub">Use action + object: "Earn Rewards", "Connect Wallet", "View History"</div>
+        </div>
+      </div>
+      <div class="antipattern">
+        <div class="antipattern-icon">✕</div>
+        <div>
+          <div class="antipattern-text">Font sizes below 9px (font.size.xs) in any visible element</div>
+          <div class="antipattern-sub">Minimum: font.size.xs = 9px for labels/tokens, font.size.md = 14px for interactive</div>
+        </div>
+      </div>
+      <div class="antipattern">
+        <div class="antipattern-icon">✕</div>
+        <div>
+          <div class="antipattern-text">Gradient or blur backgrounds — flat neubrutalism only</div>
+          <div class="antipattern-sub">No box-shadow with blur radius. Shadows are solid offset only (shadow.1, shadow.2).</div>
+        </div>
+      </div>
+      <div class="antipattern">
+        <div class="antipattern-icon">✕</div>
+        <div>
+          <div class="antipattern-text">Shipping any interactive component without all 7 states defined</div>
+          <div class="antipattern-sub">Required: default, hover, focus-visible, active, disabled, loading, error</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: QA Checklist -->
+  <div class="tab-panel" id="tab-qa" role="tabpanel" aria-labelledby="btn-qa">
+    <div class="section">
+      <div class="section-label">QA Checklist — run before shipping any component</div>
+      <div class="section-title">Component Quality Gates</div>
+
+      <div style="margin-bottom:16px;padding:12px 16px;background:var(--g-lime);border:2px solid #000;border-radius:var(--r-xs);box-shadow:var(--g-shadow-2);font-size:13px;font-weight:700;">
+        34 links · 30 buttons · 8 cards · 1 list — all must pass before deploy
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:0;">
+        <div class="qa-item">
+          <div class="qa-check"><span style="font-size:9px;color:#ccc;">□</span></div>
+          <div><span class="must-tag tag-must" style="margin-right:6px;font-size:9px;">must</span>All 7 states implemented: default, hover, focus-visible, active, disabled, loading, error</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-check"><span style="font-size:9px;color:#ccc;">□</span></div>
+          <div><span class="must-tag tag-must" style="margin-right:6px;font-size:9px;">must</span>Focus indicator visible — 3px solid #abf600 — on Tab through entire component</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-check"><span style="font-size:9px;color:#ccc;">□</span></div>
+          <div><span class="must-tag tag-must" style="margin-right:6px;font-size:9px;">must</span>Touch targets ≥ 44×44px — verified in mobile emulation</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-check"><span style="font-size:9px;color:#ccc;">□</span></div>
+          <div><span class="must-tag tag-must" style="margin-right:6px;font-size:9px;">must</span>Contrast ratio ≥ 4.5:1 body, ≥ 3:1 large text — pass via WebAIM Contrast Checker</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-check"><span style="font-size:9px;color:#ccc;">□</span></div>
+          <div><span class="must-tag tag-must" style="margin-right:6px;font-size:9px;">must</span>No raw hex values — only semantic tokens (var(--color-*))</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-check"><span style="font-size:9px;color:#ccc;">□</span></div>
+          <div><span class="must-tag tag-must" style="margin-right:6px;font-size:9px;">must</span>Spacing only from scale: space.1–space.8</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-check"><span style="font-size:9px;color:#ccc;">□</span></div>
+          <div><span class="must-tag tag-must" style="margin-right:6px;font-size:9px;">must</span>Typography only from scale: font.size.xs–font.size.4xl</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-check"><span style="font-size:9px;color:#ccc;">□</span></div>
+          <div><span class="must-tag tag-must" style="margin-right:6px;font-size:9px;">must</span>Error messages use role="alert" + aria-describedby</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-check"><span style="font-size:9px;color:#ccc;">□</span></div>
+          <div><span class="must-tag tag-must" style="margin-right:6px;font-size:9px;">must</span>Axe DevTools — zero critical / serious violations</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-check"><span style="font-size:9px;color:#ccc;">□</span></div>
+          <div><span class="must-tag tag-must" style="margin-right:6px;font-size:9px;">must</span>Button/link labels are descriptive (action + object, no "click here")</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-check"><span style="font-size:9px;color:#ccc;">□</span></div>
+          <div><span class="must-tag tag-must" style="margin-right:6px;font-size:9px;">must</span>Shadows use solid offset only — no blur-radius in any shadow token</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-check"><span style="font-size:9px;color:#ccc;">□</span></div>
+          <div><span class="must-tag tag-must" style="margin-right:6px;font-size:9px;">must</span>Long text / overflow tested: truncation with ellipsis or wrapping, never layout break</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-check"><span style="font-size:9px;color:#ccc;">□</span></div>
+          <div><span class="must-tag tag-should" style="margin-right:6px;font-size:9px;">should</span>Empty state defined for list and card: illustration + instructional copy + CTA</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-check"><span style="font-size:9px;color:#ccc;">□</span></div>
+          <div><span class="must-tag tag-should" style="margin-right:6px;font-size:9px;">should</span>Responsive tested at 320px, 768px, 1280px breakpoints</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-check"><span style="font-size:9px;color:#ccc;">□</span></div>
+          <div><span class="must-tag tag-should" style="margin-right:6px;font-size:9px;">should</span>Motion respects prefers-reduced-motion — all transitions disabled</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-check"><span style="font-size:9px;color:#ccc;">□</span></div>
+          <div><span class="must-tag tag-should" style="margin-right:6px;font-size:9px;">should</span>Screen reader walkthrough with VoiceOver (macOS) and NVDA (Windows)</div>
+        </div>
+      </div>
+
+      <div style="margin-top:20px;border:2px solid #000;border-radius:var(--r-xs);padding:16px;background:var(--g-black);color:#fff;box-shadow:var(--g-shadow-1);">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--g-lime);margin-bottom:8px;">Content Standards</div>
+        <div style="font-size:13px;line-height:1.7;color:#ccc;">
+          ✓ Concise, confident, present tense<br>
+          ✓ Action + object labels: "Earn Rewards" not "Rewards"<br>
+          ✓ Numbers formatted with commas: 12,840 not 12840<br>
+          ✓ Timestamps in UTC with relative label: "Today, 14:32 UTC"<br>
+          ✓ Error messages: specific cause + resolution path<br>
+          ✗ No passive voice in CTAs<br>
+          ✗ No placeholder text as label substitute<br>
+          ✗ No "Click here" or "Learn more" without context
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const tabs = document.querySelectorAll('.nav-tab');
+  const panels = document.querySelectorAll('.tab-panel');
+
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+      panels.forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected','true');
+      panels[i].classList.add('active');
+    });
+    tab.addEventListener('keydown', e => {
+      let idx = i;
+      if (e.key === 'ArrowRight') idx = (i + 1) % tabs.length;
+      if (e.key === 'ArrowLeft') idx = (i - 1 + tabs.length) % tabs.length;
+      if (e.key === 'Home') idx = 0;
+      if (e.key === 'End') idx = tabs.length - 1;
+      if (idx !== i) { e.preventDefault(); tabs[idx].click(); tabs[idx].focus(); }
+    });
+  });
+</script>

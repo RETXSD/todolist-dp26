@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" th:content="'Sign in to ' + ${appName} + ' — your design pattern todo app'">
+    <title>Login — [[${appName}]]</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        :root {
+            --black: #000000; --white: #ffffff; --lime: #abf600;
+            --lime-soft: #f2fed1; --dark: #111111; --navy: #1a202c;
+            --muted: #666666; --error: #cc0000; --bg: #f7f7f7; --border: #e2e8f0;
+            --s1: rgb(25,26,35) 0px 5px 0px 0px;
+            --s2: rgb(25,26,35) 4px 4px 0px 0px;
+            --sh: rgb(25,26,35) 6px 6px 0px 0px;
+            --r-xs: 7px; --r-md: 16px; --r-pill: 9999px;
+            --fast: 200ms; --font: 'DM Sans', sans-serif;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: var(--font); background: var(--bg); color: var(--navy);
+            min-height: 100vh; display: flex; align-items: center;
+            justify-content: center; padding: 24px;
+        }
+        .auth-wrap { width: 100%; max-width: 440px; }
+
+        .brand-row { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; }
+        .brand-logo {
+            width: 46px; height: 46px; background: var(--lime);
+            border: 2px solid var(--black); border-radius: var(--r-xs);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px; box-shadow: var(--s2); flex-shrink: 0;
+            color: var(--black);
+        }
+        .brand-name { font-size: 24px; font-weight: 700; color: var(--navy); }
+
+        .card {
+            background: var(--white); border: 2px solid var(--black);
+            border-radius: var(--r-md); box-shadow: rgb(25,26,35) 8px 8px 0px 0px;
+            padding: 40px 36px;
+        }
+        .card-title { font-size: 26px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+        .card-sub { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
+
+        .alert {
+            padding: 10px 14px; border-radius: var(--r-xs); border: 2px solid;
+            font-size: 13px; font-weight: 600; margin-bottom: 16px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .alert-error   { background: #fff0f0; border-color: var(--error); color: var(--error); }
+        .alert-success { background: var(--lime-soft); border-color: #3a5a00; color: #3a5a00; }
+
+        .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+        .form-label {
+            font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+            text-transform: uppercase; color: var(--dark);
+        }
+        .input-wrap { position: relative; }
+        .input-icon {
+            position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
+            color: var(--muted); font-size: 14px; pointer-events: none;
+        }
+        .form-input {
+            font-family: var(--font); font-size: 14px;
+            padding: 11px 14px 11px 38px;
+            border: 2px solid var(--black); border-radius: var(--r-xs);
+            background: var(--white); color: var(--navy); outline: none;
+            box-shadow: var(--s2); transition: box-shadow var(--fast); width: 100%;
+        }
+        .form-input:hover { box-shadow: var(--sh); }
+        .form-input:focus { outline: 3px solid var(--lime); outline-offset: 2px; }
+
+        .btn {
+            font-family: var(--font); font-size: 15px; font-weight: 700;
+            border: 2px solid var(--black); border-radius: var(--r-pill);
+            padding: 12px 20px; cursor: pointer;
+            transition: transform var(--fast), box-shadow var(--fast);
+            display: inline-flex; align-items: center; justify-content: center;
+            gap: 8px; width: 100%; margin-top: 8px;
+        }
+        .btn-lime { background: var(--lime); color: var(--black); box-shadow: var(--s1); }
+        .btn-lime:hover  { transform: translateY(-2px); box-shadow: rgb(25,26,35) 0px 7px 0px 0px; }
+        .btn-lime:active { transform: translateY(3px); box-shadow: none; }
+
+        .footer-link { text-align: center; margin-top: 20px; font-size: 14px; color: var(--muted); }
+        .footer-link a {
+            color: var(--navy); font-weight: 700;
+            border-bottom: 2px solid var(--lime); text-decoration: none;
+            transition: color var(--fast);
+        }
+        .footer-link a:hover { color: var(--black); }
+
+        .divider { border: none; border-top: 2px solid var(--border); margin: 24px 0 16px; }
+
+        .badge-row { display: flex; flex-wrap: wrap; gap: 6px; }
+        .badge {
+            font-size: 9px; font-weight: 700; border: 2px solid var(--black);
+            border-radius: var(--r-pill); padding: 2px 9px;
+            text-transform: uppercase; letter-spacing: 0.08em;
+        }
+        .b-lime   { background: var(--lime); color: var(--black); }
+        .b-blue   { background: #eff6ff; border-color: #93c5fd; color: #1d4ed8; }
+        .b-purple { background: #fdf4ff; border-color: #d8b4fe; color: #7e22ce; }
+        .b-orange { background: #fff7ed; border-color: #fed7aa; color: #c2410c; }
+        .b-green  { background: #f0fdf4; border-color: #86efac; color: #15803d; }
+        .b-red    { background: #fff0f0; border-color: #fca5a5; color: #dc2626; }
+        .b-yellow { background: #fefce8; border-color: #fde047; color: #854d0e; }
+        .b-slate  { background: #f8fafc; border-color: #94a3b8; color: #475569; }
+    </style>
+</head>
+<body>
+<div class="auth-wrap">
+    <div class="brand-row">
+        <div class="brand-logo"><i class="fa-solid fa-check-double"></i></div>
+        <div class="brand-name" th:text="${appName}">TaskFlow</div>
+    </div>
+
+    <div class="card">
+        <h1 class="card-title">Welcome back</h1>
+        <p class="card-sub">Sign in to manage your tasks</p>
+
+        <div th:if="${errorMsg}" class="alert alert-error" id="login-error-alert">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span th:text="${errorMsg}">Invalid credentials</span>
+        </div>
+        <div th:if="${logoutMsg}" class="alert alert-success" id="login-logout-alert">
+            <i class="fa-solid fa-circle-check"></i>
+            <span th:text="${logoutMsg}">Logged out.</span>
+        </div>
+        <div th:if="${param.registered}" class="alert alert-success" id="login-registered-alert">
+            <i class="fa-solid fa-circle-check"></i>
+            <span>Account created! Please sign in.</span>
+        </div>
+
+        <form method="post" th:action="@{/login}" id="login-form">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <div class="form-group">
+                <label class="form-label" for="username">Username or Email</label>
+                <div class="input-wrap">
+                    <i class="fa-solid fa-user input-icon"></i>
+                    <input class="form-input" type="text" id="username" name="username"
+                           placeholder="Enter your username or email" autocomplete="username" required autofocus>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="password">Password</label>
+                <div class="input-wrap">
+                    <i class="fa-solid fa-lock input-icon"></i>
+                    <input class="form-input" type="password" id="password" name="password"
+                           placeholder="Enter your password" autocomplete="current-password" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-lime" id="login-submit-btn">
+                <i class="fa-solid fa-arrow-right-to-bracket"></i> Sign In
+            </button>
+        </form>
+
+        <div class="footer-link">
+            Don't have an account? <a th:href="@{/register}" id="go-register-link">Create one</a>
+        </div>
+
+        <hr class="divider">
+        <div class="badge-row">
+            <span class="badge b-lime"><i class="fa-solid fa-circle-dot"></i> Singleton</span>
+            <span class="badge b-blue"><i class="fa-solid fa-industry"></i> Factory</span>
+            <span class="badge b-purple"><i class="fa-solid fa-hammer"></i> Builder</span>
+            <span class="badge b-orange"><i class="fa-solid fa-wand-magic-sparkles"></i> Decorator</span>
+            <span class="badge b-green"><i class="fa-solid fa-chess-knight"></i> Strategy</span>
+            <span class="badge b-red"><i class="fa-solid fa-eye"></i> Observer</span>
+            <span class="badge b-yellow"><i class="fa-solid fa-layer-group"></i> Facade</span>
+            <span class="badge b-slate"><i class="fa-solid fa-terminal"></i> Command</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>
