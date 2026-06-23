@@ -1,5 +1,6 @@
 package com.todolist.pattern.creational;
 
+import com.todolist.config.AppConfig;
 import com.todolist.model.Category;
 import com.todolist.model.Task;
 import com.todolist.model.Urgency;
@@ -27,6 +28,8 @@ import java.time.LocalDate;
  */
 @Component
 public class TaskFactory {
+
+    private final AppConfig.ConfigHolder config = AppConfig.ConfigHolder.getInstance();
 
     /**
      * Creates a Task with category-specific default behaviors applied.
@@ -100,11 +103,7 @@ public class TaskFactory {
         }
 
         // Apply defaults based on category
-        return switch (category) {
-            case WORK     -> Urgency.PRIORITY;
-            case PERSONAL -> Urgency.OPTIONAL;
-            case SHOPPING -> Urgency.OPTIONAL;
-        };
+        return config.getDefaultUrgency(category);
     }
 
     /**
@@ -115,9 +114,6 @@ public class TaskFactory {
     private LocalDate resolveDate(LocalDate taskDate, Category category) {
         if (taskDate != null) return taskDate;
 
-        return switch (category) {
-            case SHOPPING -> LocalDate.now().plusDays(3);
-            default       -> LocalDate.now();
-        };
+        return config.getDefaultTaskDate(category);
     }
 }
