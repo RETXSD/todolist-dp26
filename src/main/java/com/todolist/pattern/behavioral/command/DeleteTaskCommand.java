@@ -41,6 +41,7 @@ public class DeleteTaskCommand implements TaskCommand {
                 .title(task.getTitle())
                 .description(task.getDescription())
                 .taskDate(task.getTaskDate())
+                .taskTime(task.getTaskTime())
                 .category(task.getCategory())
                 .urgency(task.getUrgency())
                 .recurrencePattern(task.getRecurrencePattern())

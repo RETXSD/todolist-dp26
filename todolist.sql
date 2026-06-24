@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS tasks (
     title VARCHAR(255) NOT NULL,
     description TEXT,
     task_date DATE NOT NULL,
+    task_time TIME DEFAULT NULL,
     category ENUM('PERSONAL', 'WORK', 'SHOPPING') NOT NULL,
     urgency ENUM('URGENT', 'PRIORITY', 'OPTIONAL') NOT NULL DEFAULT 'OPTIONAL',
     recurrence_pattern VARCHAR(50) DEFAULT NULL,
@@ -36,11 +37,11 @@ INSERT IGNORE INTO users (id, username, email, password)
 VALUES (1, 'demo', 'demo@taskflow.com', 'demo123');
 
 INSERT IGNORE INTO tasks
-    (user_id, title, description, task_date, category, urgency, completed)
+    (user_id, title, description, task_date, task_time, category, urgency, completed)
 VALUES
-    (1, 'Submit design pattern report', 'Finalize and submit the university project report.', CURRENT_DATE, 'WORK', 'URGENT', FALSE),
-    (1, 'Code review with teammates', 'Review pull requests and leave comments.', CURRENT_DATE, 'WORK', 'PRIORITY', FALSE),
-    (1, 'Buy groceries', 'Milk, eggs, bread, and vegetables.', CURRENT_DATE, 'PERSONAL', 'PRIORITY', FALSE),
-    (1, 'Browse new stationery', 'Check for new notebooks and pens online.', CURRENT_DATE, 'SHOPPING', 'OPTIONAL', FALSE),
-    (1, 'Morning jog', '30 minutes around the park.', CURRENT_DATE, 'PERSONAL', 'OPTIONAL', FALSE),
-    (1, 'Fix critical bug before deadline', 'Investigate and resolve the null pointer exception in the auth flow.', CURRENT_DATE, 'WORK', 'URGENT', FALSE);
+    (1, 'Submit design pattern report', 'Finalize and submit the university project report.', CURRENT_DATE, '09:00', 'WORK', 'URGENT', FALSE),
+    (1, 'Code review with teammates', 'Review pull requests and leave comments.', CURRENT_DATE, '11:00', 'WORK', 'PRIORITY', FALSE),
+    (1, 'Buy groceries', 'Milk, eggs, bread, and vegetables.', CURRENT_DATE, '17:00', 'PERSONAL', 'PRIORITY', FALSE),
+    (1, 'Browse new stationery', 'Check for new notebooks and pens online.', CURRENT_DATE, '15:00', 'SHOPPING', 'OPTIONAL', FALSE),
+    (1, 'Morning jog', '30 minutes around the park.', CURRENT_DATE, '06:30', 'PERSONAL', 'OPTIONAL', FALSE),
+    (1, 'Fix critical bug before deadline', 'Investigate and resolve the null pointer exception in the auth flow.', CURRENT_DATE, '16:00', 'WORK', 'URGENT', FALSE);

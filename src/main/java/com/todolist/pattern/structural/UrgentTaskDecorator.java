@@ -6,7 +6,7 @@ package com.todolist.pattern.structural;
  * Role: CONCRETE DECORATOR
  *
  * Wraps any TaskComponent and adds urgent-specific behavior:
- * - Prepends "🔴 URGENT: " to the display label.
+ * - Prepends " URGENT: " to the display label.
  * - Always returns "URGENT" as the urgency, regardless of wrapped component.
  *
  * This adds behavior WITHOUT modifying the original Task class.
@@ -39,11 +39,11 @@ public class UrgentTaskDecorator implements TaskComponent {
     }
 
     /**
-     * Adds "🔴 URGENT: " prefix to the wrapped component's display label.
-     * Example: "🔴 URGENT: [WORK] Submit design pattern report"
+     * Adds " URGENT: " prefix to the wrapped component's display label.
+     * Example: " URGENT: [WORK] Submit design pattern report"
      */
     @Override
     public String getDisplayLabel() {
-        return "🔴 URGENT: " + wrapped.getDisplayLabel();
+        return " URGENT: " + wrapped.getDisplayLabel();
     }
 }

@@ -8,6 +8,7 @@ import com.todolist.model.User;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 /**
  * FACTORY PATTERN — TaskFactory
@@ -48,13 +49,24 @@ public class TaskFactory {
                            LocalDate taskDate,
                            String category,
                            String urgency) {
-        return createTask(user, title, description, taskDate, category, urgency, null);
+        return createTask(user, title, description, taskDate, null, category, urgency, null);
     }
 
     public Task createTask(User user,
                            String title,
                            String description,
                            LocalDate taskDate,
+                           LocalTime taskTime,
+                           String category,
+                           String urgency) {
+        return createTask(user, title, description, taskDate, taskTime, category, urgency, null);
+    }
+
+    public Task createTask(User user,
+                           String title,
+                           String description,
+                           LocalDate taskDate,
+                           LocalTime taskTime,
                            String category,
                            String urgency,
                            String recurrencePattern) {
@@ -79,6 +91,7 @@ public class TaskFactory {
                 .title(title)
                 .description(description)
                 .taskDate(resolvedDate)
+                .taskTime(taskTime)
                 .category(cat)
                 .urgency(urg)
                 .completed(false)
@@ -108,7 +121,7 @@ public class TaskFactory {
 
     /**
      * Applies category-specific default date rules.
-     * - SHOPPING: if date is null, default to today + 3 days
+     * - SHOPPING: if date is null, default to the next Saturday
      * - Others: default to today
      */
     private LocalDate resolveDate(LocalDate taskDate, Category category) {

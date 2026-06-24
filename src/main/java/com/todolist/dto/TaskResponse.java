@@ -2,6 +2,7 @@ package com.todolist.dto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 /**
  * DTO for sending task data back to the view/client.
@@ -13,6 +14,7 @@ public class TaskResponse {
     private String title;
     private String description;
     private LocalDate taskDate;
+    private LocalTime taskTime;
     private String category;
     private String urgency;
     private boolean completed;
@@ -26,7 +28,7 @@ public class TaskResponse {
     public TaskResponse() {
     }
 
-    public TaskResponse(Long id, String title, String description, LocalDate taskDate,
+    public TaskResponse(Long id, String title, String description, LocalDate taskDate, LocalTime taskTime,
                         String category, String urgency, boolean completed,
                         LocalDateTime createdAt, String recurrencePattern, String displayLabel,
                         String statusLabel, String statusCssClass, boolean actionable) {
@@ -34,6 +36,7 @@ public class TaskResponse {
         this.title = title;
         this.description = description;
         this.taskDate = taskDate;
+        this.taskTime = taskTime;
         this.category = category;
         this.urgency = urgency;
         this.completed = completed;
@@ -79,6 +82,14 @@ public class TaskResponse {
 
     public void setTaskDate(LocalDate taskDate) {
         this.taskDate = taskDate;
+    }
+
+    public LocalTime getTaskTime() {
+        return taskTime;
+    }
+
+    public void setTaskTime(LocalTime taskTime) {
+        this.taskTime = taskTime;
     }
 
     public String getCategory() {
@@ -158,6 +169,7 @@ public class TaskResponse {
         private String title;
         private String description;
         private LocalDate taskDate;
+        private LocalTime taskTime;
         private String category;
         private String urgency;
         private boolean completed;
@@ -185,6 +197,11 @@ public class TaskResponse {
 
         public TaskResponseBuilder taskDate(LocalDate taskDate) {
             this.taskDate = taskDate;
+            return this;
+        }
+
+        public TaskResponseBuilder taskTime(LocalTime taskTime) {
+            this.taskTime = taskTime;
             return this;
         }
 
@@ -234,7 +251,7 @@ public class TaskResponse {
         }
 
         public TaskResponse build() {
-            return new TaskResponse(id, title, description, taskDate, category, urgency,
+            return new TaskResponse(id, title, description, taskDate, taskTime, category, urgency,
                     completed, createdAt, recurrencePattern, displayLabel,
                     statusLabel, statusCssClass, actionable);
         }

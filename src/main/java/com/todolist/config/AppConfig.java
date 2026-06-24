@@ -6,7 +6,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Map;
 
 /**
@@ -57,7 +59,7 @@ public class AppConfig {
 
     @Bean
     public String appVersion() {
-        return "1.0.0";
+        return "4.10.2";
     }
 
     // -------------------------------------------------------
@@ -111,7 +113,7 @@ public class AppConfig {
 
         public LocalDate getDefaultTaskDate(Category category) {
             if (category == Category.SHOPPING) {
-                return LocalDate.now().plusDays(3);
+                return LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.SATURDAY));
             }
             return LocalDate.now();
         }

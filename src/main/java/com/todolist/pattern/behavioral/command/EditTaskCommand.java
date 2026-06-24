@@ -6,6 +6,7 @@ import com.todolist.model.Urgency;
 import com.todolist.repository.TaskRepository;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 /**
  * COMMAND PATTERN — Concrete Command: Edit Task
@@ -27,6 +28,7 @@ public class EditTaskCommand implements TaskCommand {
     private final String oldTitle;
     private final String oldDescription;
     private final LocalDate oldTaskDate;
+    private final LocalTime oldTaskTime;
     private final Category oldCategory;
     private final Urgency oldUrgency;
     private final String oldRecurrencePattern;
@@ -35,6 +37,7 @@ public class EditTaskCommand implements TaskCommand {
     private final String newTitle;
     private final String newDescription;
     private final LocalDate newTaskDate;
+    private final LocalTime newTaskTime;
     private final Category newCategory;
     private final Urgency newUrgency;
     private final String newRecurrencePattern;
@@ -43,6 +46,7 @@ public class EditTaskCommand implements TaskCommand {
                            String title,
                            String description,
                            LocalDate taskDate,
+                           LocalTime taskTime,
                            Category category,
                            Urgency urgency,
                            String recurrencePattern,
@@ -54,6 +58,7 @@ public class EditTaskCommand implements TaskCommand {
         this.oldTitle               = task.getTitle();
         this.oldDescription         = task.getDescription();
         this.oldTaskDate            = task.getTaskDate();
+        this.oldTaskTime            = task.getTaskTime();
         this.oldCategory            = task.getCategory();
         this.oldUrgency             = task.getUrgency();
         this.oldRecurrencePattern   = task.getRecurrencePattern();
@@ -62,6 +67,7 @@ public class EditTaskCommand implements TaskCommand {
         this.newTitle               = title;
         this.newDescription         = description;
         this.newTaskDate            = taskDate;
+        this.newTaskTime            = taskTime;
         this.newCategory            = category;
         this.newUrgency             = urgency;
         this.newRecurrencePattern   = recurrencePattern;
@@ -72,6 +78,7 @@ public class EditTaskCommand implements TaskCommand {
         task.setTitle(newTitle);
         task.setDescription(newDescription);
         task.setTaskDate(newTaskDate);
+        task.setTaskTime(newTaskTime);
         task.setCategory(newCategory);
         task.setUrgency(newUrgency);
         task.setRecurrencePattern(newRecurrencePattern);
@@ -83,6 +90,7 @@ public class EditTaskCommand implements TaskCommand {
         task.setTitle(oldTitle);
         task.setDescription(oldDescription);
         task.setTaskDate(oldTaskDate);
+        task.setTaskTime(oldTaskTime);
         task.setCategory(oldCategory);
         task.setUrgency(oldUrgency);
         task.setRecurrencePattern(oldRecurrencePattern);

@@ -1,5 +1,6 @@
 package com.todolist.facade;
 
+import com.todolist.config.AppConfig;
 import com.todolist.model.Category;
 import com.todolist.model.Task;
 import com.todolist.model.Urgency;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -70,13 +72,18 @@ public class TaskFacade {
 
     public Task createTask(User user, String title, String description,
                            LocalDate taskDate, String category, String urgency) {
-        return createTask(user, title, description, taskDate, category, urgency, null);
+        return createTask(user, title, description, taskDate, null, category, urgency, null);
     }
 
     public Task createTask(User user, String title, String description,
                            LocalDate taskDate, String category, String urgency, String recurrencePattern) {
+        return createTask(user, title, description, taskDate, null, category, urgency, recurrencePattern);
+    }
+
+    public Task createTask(User user, String title, String description,
+                           LocalDate taskDate, LocalTime taskTime, String category, String urgency, String recurrencePattern) {
         // Factory creates the Task with proper defaults applied
-        Task task = taskFactory.createTask(user, title, description, taskDate, category, urgency, recurrencePattern);
+        Task task = taskFactory.createTask(user, title, description, taskDate, taskTime, category, urgency, recurrencePattern);
         CreateTaskCommand cmd = new CreateTaskCommand(task, taskRepository);
         commandHistory.push(cmd);
         Task savedTask = cmd.getTask();
@@ -89,13 +96,15 @@ public class TaskFacade {
     // ----------------------------------------------------------------
 
     public void editTask(Long taskId, String title, String description,
-                         LocalDate taskDate, String category, String urgency, String recurrencePattern) {
+                         LocalDate taskDate, LocalTime taskTime, String category, String urgency, String recurrencePattern) {
         Task task = findTaskById(taskId);
         Category cat = Category.valueOf(category.toUpperCase());
-        Urgency urg = Urgency.valueOf(urgency.toUpperCase());
+        Urgency urg = urgency != null && !urgency.isBlank()
+                ? Urgency.valueOf(urgency.toUpperCase())
+                : AppConfig.ConfigHolder.getInstance().getDefaultUrgency(cat);
         String rec = recurrencePattern != null && !recurrencePattern.isBlank() ? recurrencePattern.toUpperCase() : null;
 
-        EditTaskCommand cmd = new EditTaskCommand(task, title, description, taskDate, cat, urg, rec, taskRepository);
+        EditTaskCommand cmd = new EditTaskCommand(task, title, description, taskDate, taskTime, cat, urg, rec, taskRepository);
         commandHistory.push(cmd);
         eventPublisher.publishTaskEdited(task); // Publish event
     }

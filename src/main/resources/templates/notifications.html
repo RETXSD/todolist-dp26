@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - [[${appName}]]</title>
+    <link rel="stylesheet" th:href="@{/Global.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="app-shell">
+        <aside class="sidebar" id="app-sidebar">
+            <div class="sidebar-top">
+                <div class="sidebar-brand" th:onclick="|location.href='@{/tasks}'|">
+                    <div class="brand-logo"><i class="fa-solid fa-check-double"></i></div>
+                    <div class="brand-name" th:text="${appName}">TaskFlow</div>
+                </div>
+                <button class="btn-add-task" th:onclick="|location.href='@{/tasks}'|">
+                    <i class="fa-solid fa-list-check"></i> Back to Tasks
+                </button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-label">Workspace</div>
+                <a th:href="@{/tasks}" class="nav-item">
+                    <i class="fa-solid fa-list-check nav-item-icon"></i>
+                    <span>Tasks</span>
+                </a>
+                <a th:href="@{/notifications}" class="nav-item active">
+                    <i class="fa-solid fa-bell nav-item-icon"></i>
+                    <span>Notifications</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="sidebar-user">
+                    <div class="user-avatar" th:text="${#strings.substring(username, 0, 1).toUpperCase()}">U</div>
+                    <div style="flex: 1; min-width: 0;">
+                        <div class="user-name" th:text="${username}">Username</div>
+                        <div class="user-email" th:text="'v' + ${appVersion}">v1.0.0</div>
+                    </div>
+                    <form th:action="@{/logout}" method="post" style="display: inline;">
+                        <button type="submit" class="btn-icon danger" aria-label="Sign out">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <button class="btn-sidebar-toggle" onclick="toggleSidebar()" id="mobile-hamburger-btn">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="topbar-title">Urgent Notifications</div>
+                <div class="topbar-actions">
+                    <div class="badge badge-urgent">
+                        <i class="fa-solid fa-bell"></i>
+                        <span th:text="${activeReminderCount + ' active'}">0 active</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="page-content">
+                <section class="stats-bar">
+                    <div class="stat-card">
+                        <div class="stat-icon stat-icon-urgent"><i class="fa-solid fa-fire"></i></div>
+                        <div>
+                            <div class="stat-value" th:text="${reminders.size()}">0</div>
+                            <div class="stat-label">Urgent Reminders</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon stat-icon-done"><i class="fa-solid fa-clock"></i></div>
+                        <div>
+                            <div class="stat-value" th:text="${#temporals.format(now, 'HH:mm')}">00:00</div>
+                            <div class="stat-label">Current Time</div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="task-section-title">Reminder Strategy Output</div>
+
+                <div th:if="${#lists.isEmpty(reminders)}" class="empty-state">
+                    <div class="empty-icon"><i class="fa-regular fa-bell-slash"></i></div>
+                    <h2 class="empty-title">No urgent reminders</h2>
+                    <p class="empty-sub">Completed tasks and non-urgent tasks do not generate reminders.</p>
+                    <a th:href="@{/tasks}" class="btn btn-primary">
+                        <i class="fa-solid fa-list-check"></i> Open Tasks
+                    </a>
+                </div>
+
+                <div th:if="${not #lists.isEmpty(reminders)}" class="task-list">
+                    <div th:each="reminder : ${reminders}" class="task-card"
+                         th:classappend="${reminder.active} ? 'overdue' : ''">
+                        <div style="display: flex; align-items: center;">
+                            <div class="stat-icon stat-icon-urgent" style="width: 36px; height: 36px;">
+                                <i class="fa-solid fa-bell"></i>
+                            </div>
+                        </div>
+
+                        <div class="task-body">
+                            <div class="task-title" th:text="${reminder.taskTitle}">Task title</div>
+                            <div class="task-desc" th:text="${reminder.message}">Reminder message</div>
+                            <div class="task-meta">
+                                <span class="badge badge-urgent" th:text="${reminder.type}">Before</span>
+                                <span class="badge"
+                                      th:classappend="${reminder.statusCssClass}"
+                                      th:text="${reminder.statusLabel}">Scheduled</span>
+                                <span class="badge"
+                                      th:text="${#temporals.format(reminder.taskDate, 'dd MMM yyyy')}">Date</span>
+                                <span class="badge" th:if="${reminder.taskTime != null}"
+                                      th:text="${#temporals.format(reminder.taskTime, 'HH:mm')}">09:00</span>
+                                <span class="badge" th:if="${reminder.triggerAt != null}"
+                                      th:text="${'Trigger ' + #temporals.format(reminder.triggerAt, 'dd MMM HH:mm')}">
+                                    Trigger
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="task-actions" style="opacity: 1;">
+                            <a th:href="@{/tasks(date=${#temporals.format(reminder.taskDate, 'yyyy-MM-dd')})}"
+                               class="btn-icon" aria-label="Open task date">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('app-sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        }
+    </script>
+</body>
+
+</html>

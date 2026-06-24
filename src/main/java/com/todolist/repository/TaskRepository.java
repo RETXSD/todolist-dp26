@@ -14,7 +14,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -43,7 +45,7 @@ public class TaskRepository {
 
     public Optional<Task> findById(Long id) {
         String sql = """
-                SELECT t.id, t.user_id, t.title, t.description, t.task_date, t.category, t.urgency,
+                SELECT t.id, t.user_id, t.title, t.description, t.task_date, t.task_time, t.category, t.urgency,
                        t.recurrence_pattern, t.completed, t.created_at, t.updated_at,
                        u.username, u.email, u.password, u.created_at AS user_created_at
                 FROM tasks t
@@ -89,7 +91,7 @@ public class TaskRepository {
 
     public List<Task> findByUserIdAndTaskDate(Long userId, LocalDate date) {
         return findMany("""
-                SELECT t.id, t.user_id, t.title, t.description, t.task_date, t.category, t.urgency,
+                SELECT t.id, t.user_id, t.title, t.description, t.task_date, t.task_time, t.category, t.urgency,
                        t.recurrence_pattern, t.completed, t.created_at, t.updated_at,
                        u.username, u.email, u.password, u.created_at AS user_created_at
                 FROM tasks t
@@ -101,7 +103,7 @@ public class TaskRepository {
 
     public List<Task> findByUserIdAndTaskDateAndCategory(Long userId, LocalDate date, Category category) {
         return findMany("""
-                SELECT t.id, t.user_id, t.title, t.description, t.task_date, t.category, t.urgency,
+                SELECT t.id, t.user_id, t.title, t.description, t.task_date, t.task_time, t.category, t.urgency,
                        t.recurrence_pattern, t.completed, t.created_at, t.updated_at,
                        u.username, u.email, u.password, u.created_at AS user_created_at
                 FROM tasks t
@@ -113,7 +115,7 @@ public class TaskRepository {
 
     public List<Task> findByUserIdAndTaskDateAndUrgency(Long userId, LocalDate date, Urgency urgency) {
         return findMany("""
-                SELECT t.id, t.user_id, t.title, t.description, t.task_date, t.category, t.urgency,
+                SELECT t.id, t.user_id, t.title, t.description, t.task_date, t.task_time, t.category, t.urgency,
                        t.recurrence_pattern, t.completed, t.created_at, t.updated_at,
                        u.username, u.email, u.password, u.created_at AS user_created_at
                 FROM tasks t
@@ -121,6 +123,32 @@ public class TaskRepository {
                 WHERE t.user_id = ? AND t.task_date = ? AND t.urgency = ?
                 ORDER BY t.created_at DESC
                 """, userId, date, null, urgency);
+    }
+
+    public List<Task> findUrgentUncompletedByUserId(Long userId) {
+        String sql = """
+                SELECT t.id, t.user_id, t.title, t.description, t.task_date, t.task_time, t.category, t.urgency,
+                       t.recurrence_pattern, t.completed, t.created_at, t.updated_at,
+                       u.username, u.email, u.password, u.created_at AS user_created_at
+                FROM tasks t
+                JOIN users u ON u.id = t.user_id
+                WHERE t.user_id = ? AND t.urgency = 'URGENT' AND t.completed = false
+                ORDER BY t.task_date ASC, t.task_time ASC, t.created_at DESC
+                """;
+        List<Task> tasks = new ArrayList<>();
+
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setLong(1, userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    tasks.add(mapTask(rs));
+                }
+            }
+            return tasks;
+        } catch (SQLException e) {
+            throw new IllegalStateException("Failed to query urgent notification tasks", e);
+        }
     }
 
     public List<LocalDate> findDistinctTaskDateByUserId(Long userId) {
@@ -158,9 +186,9 @@ public class TaskRepository {
     private Task insert(Task task) {
         String sql = """
                 INSERT INTO tasks
-                    (user_id, title, description, task_date, category, urgency, recurrence_pattern,
+                    (user_id, title, description, task_date, task_time, category, urgency, recurrence_pattern,
                      completed, created_at, updated_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """;
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime createdAt = task.getCreatedAt() != null ? task.getCreatedAt() : now;
@@ -187,7 +215,7 @@ public class TaskRepository {
     private Task update(Task task) {
         String sql = """
                 UPDATE tasks
-                SET user_id = ?, title = ?, description = ?, task_date = ?, category = ?, urgency = ?,
+                SET user_id = ?, title = ?, description = ?, task_date = ?, task_time = ?, category = ?, urgency = ?,
                     recurrence_pattern = ?, completed = ?, created_at = ?, updated_at = ?
                 WHERE id = ?
                 """;
@@ -197,7 +225,7 @@ public class TaskRepository {
         try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             bindTaskFields(ps, task, createdAt, updatedAt);
-            ps.setLong(11, task.getId());
+            ps.setLong(12, task.getId());
             ps.executeUpdate();
             task.setCreatedAt(createdAt);
             task.setUpdatedAt(updatedAt);
@@ -213,12 +241,17 @@ public class TaskRepository {
         ps.setString(2, task.getTitle());
         ps.setString(3, task.getDescription());
         ps.setDate(4, Date.valueOf(task.getTaskDate()));
-        ps.setString(5, task.getCategory().name());
-        ps.setString(6, task.getUrgency().name());
-        ps.setString(7, task.getRecurrencePattern());
-        ps.setBoolean(8, task.isCompleted());
-        ps.setTimestamp(9, Timestamp.valueOf(createdAt));
-        ps.setTimestamp(10, Timestamp.valueOf(updatedAt));
+        if (task.getTaskTime() != null) {
+            ps.setTime(5, Time.valueOf(task.getTaskTime()));
+        } else {
+            ps.setNull(5, Types.TIME);
+        }
+        ps.setString(6, task.getCategory().name());
+        ps.setString(7, task.getUrgency().name());
+        ps.setString(8, task.getRecurrencePattern());
+        ps.setBoolean(9, task.isCompleted());
+        ps.setTimestamp(10, Timestamp.valueOf(createdAt));
+        ps.setTimestamp(11, Timestamp.valueOf(updatedAt));
     }
 
     private List<Task> findMany(String sql, Long userId, LocalDate date,
@@ -265,6 +298,10 @@ public class TaskRepository {
         task.setTitle(rs.getString("title"));
         task.setDescription(rs.getString("description"));
         task.setTaskDate(rs.getDate("task_date").toLocalDate());
+        Time taskTime = rs.getTime("task_time");
+        if (taskTime != null) {
+            task.setTaskTime(taskTime.toLocalTime());
+        }
         task.setCategory(Category.valueOf(rs.getString("category")));
         task.setUrgency(Urgency.valueOf(rs.getString("urgency")));
         task.setRecurrencePattern(rs.getString("recurrence_pattern"));

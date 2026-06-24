@@ -103,16 +103,17 @@ public class TaskController {
                              @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate redirectDate,
                              Authentication auth) {
         User currentUser = getUser(auth);
-        taskFacade.createTask(
+        Task createdTask = taskFacade.createTask(
                 currentUser,
                 req.getTitle(),
                 req.getDescription(),
-                req.getTaskDate() != null ? req.getTaskDate() : LocalDate.now(),
+                req.getTaskDate(),
+                req.getTaskTime(),
                 req.getCategory(),
                 req.getUrgency(),
                 req.getRecurrencePattern()
         );
-        LocalDate date = req.getTaskDate() != null ? req.getTaskDate() : LocalDate.now();
+        LocalDate date = createdTask.getTaskDate();
         return "redirect:/tasks?date=" + date;
     }
 
@@ -130,6 +131,7 @@ public class TaskController {
                 req.getTitle(),
                 req.getDescription(),
                 req.getTaskDate() != null ? req.getTaskDate() : LocalDate.now(),
+                req.getTaskTime(),
                 req.getCategory(),
                 req.getUrgency(),
                 req.getRecurrencePattern()
@@ -212,6 +214,7 @@ public class TaskController {
                 .title(task.getTitle())
                 .description(task.getDescription())
                 .taskDate(task.getTaskDate())
+                .taskTime(task.getTaskTime())
                 .category(task.getCategory().name())
                 .urgency(task.getUrgency().name())
                 .completed(task.isCompleted())

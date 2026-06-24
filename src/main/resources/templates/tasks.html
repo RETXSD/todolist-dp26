@@ -64,6 +64,14 @@
 
                 <div class="nav-divider"></div>
 
+                <div class="nav-label">Workspace</div>
+                <a th:href="@{/notifications}" class="nav-item" id="nav-notifications">
+                    <i class="fa-solid fa-bell nav-item-icon"></i>
+                    <span>Notifications</span>
+                </a>
+
+                <div class="nav-divider"></div>
+
                 <!-- Schedule / Calendar section -->
                 <div th:if="${not #lists.isEmpty(taskDates)}" class="sidebar-projects">
                     <div class="nav-label">My Schedule</div>
@@ -260,6 +268,8 @@
                                     <span class="badge"
                                         th:classappend="${task.category == 'WORK' ? 'badge-work' : (task.category == 'PERSONAL' ? 'badge-personal' : 'badge-shopping')}"
                                         th:text="${task.category}">WORK</span>
+                                    <span class="badge" th:if="${task.taskTime != null}"
+                                        th:text="${#temporals.format(task.taskTime, 'HH:mm')}">09:00</span>
                                     <span class="badge" th:text="${task.statusLabel}">Pending</span>
                                 </div>
                             </div>
@@ -269,7 +279,8 @@
                                 <button type="button" class="btn-icon" aria-label="Edit Task"
                                     th:id="'task-edit-' + ${task.id}" th:data-id="${task.id}"
                                     th:data-title="${task.title}" th:data-description="${task.description}"
-                                    th:data-date="${task.taskDate}" th:data-category="${task.category}"
+                                    th:data-date="${task.taskDate}" th:data-time="${task.taskTime}"
+                                    th:data-category="${task.category}"
                                     th:data-urgency="${task.urgency}" th:data-recurrence="${task.recurrencePattern}"
                                     onclick="editTaskFromButton(this)">
                                     <i class="fa-solid fa-pen"></i>
@@ -319,9 +330,16 @@
                     <div class="form-group">
                         <label class="form-label" for="task-date">Date</label>
                         <input type="date" class="form-input" id="task-date" th:field="*{taskDate}"
-                            th:value="${#temporals.format(selectedDate, 'yyyy-MM-dd')}" required>
+                            th:value="${#temporals.format(selectedDate, 'yyyy-MM-dd')}">
                     </div>
 
+                    <div class="form-group">
+                        <label class="form-label" for="task-time">Time</label>
+                        <input type="time" class="form-input" id="task-time" th:field="*{taskTime}">
+                    </div>
+                </div>
+
+                <div class="form-row">
                     <div class="form-group">
                         <label class="form-label" for="task-category">Category</label>
                         <select class="form-select" id="task-category" th:field="*{category}" required>
@@ -331,19 +349,20 @@
                             </option>
                         </select>
                     </div>
-                </div>
 
-                <div class="form-row">
                     <div class="form-group">
                         <label class="form-label" for="task-urgency">Urgency</label>
-                        <select class="form-select" id="task-urgency" th:field="*{urgency}" required>
+                        <select class="form-select" id="task-urgency" th:field="*{urgency}">
+                            <option value="">Auto by category</option>
                             <option th:each="urg : ${urgencies}" th:value="${urg.name()}"
                                 th:text="${#strings.capitalize(#strings.toLowerCase(urg.name()))}">
                                 Urgency
                             </option>
                         </select>
                     </div>
+                </div>
 
+                <div class="form-row">
                     <div class="form-group">
                         <label class="form-label" for="task-recurrence">Recurrence</label>
                         <select class="form-select" id="task-recurrence" th:field="*{recurrencePattern}">
@@ -366,12 +385,44 @@
     </div>
 
     <script>
+        let isEditingTask = false;
+        let dateAutoManaged = true;
+
+        function toIsoDate(date) {
+            return date.toISOString().slice(0, 10);
+        }
+
+        function getShoppingDefaultDate() {
+            const date = new Date();
+            const saturday = 6;
+            const daysUntilSaturday = (saturday - date.getDay() + 7) % 7 || 7;
+            date.setDate(date.getDate() + daysUntilSaturday);
+            return toIsoDate(date);
+        }
+
+        function applyCategoryDateDefault() {
+            if (isEditingTask || !dateAutoManaged) {
+                return;
+            }
+
+            const categoryInput = document.getElementById('task-category');
+            const dateInput = document.getElementById('task-date');
+            const selectedDateStr = "[[${#temporals.format(selectedDate, 'yyyy-MM-dd')}]]";
+
+            if (categoryInput.value === 'SHOPPING') {
+                dateInput.value = getShoppingDefaultDate();
+            } else if (!dateInput.value || dateInput.value === getShoppingDefaultDate()) {
+                dateInput.value = selectedDateStr;
+            }
+        }
+
         function editTaskFromButton(button) {
             const taskData = {
                 id: button.getAttribute('data-id'),
                 title: button.getAttribute('data-title'),
                 description: button.getAttribute('data-description'),
                 taskDate: button.getAttribute('data-date'),
+                taskTime: button.getAttribute('data-time'),
                 category: button.getAttribute('data-category'),
                 urgency: button.getAttribute('data-urgency'),
                 recurrencePattern: button.getAttribute('data-recurrence')
@@ -384,8 +435,10 @@
             const modalTitle = overlay.querySelector('.modal-title');
             const form = document.getElementById('create-task-form');
             const submitBtn = document.getElementById('create-task-submit-btn');
+            isEditingTask = isEdit;
 
             if (isEdit && taskData) {
+                dateAutoManaged = false;
                 modalTitle.innerHTML = '<i class="fa-solid fa-pen-to-square" style="margin-right:8px;"></i>Edit Task';
                 form.action = `/tasks/${taskData.id}/edit?redirectDate=[[${#temporals.format(selectedDate, 'yyyy-MM-dd')}]]`;
                 submitBtn.innerHTML = '<i class="fa-solid fa-check"></i> Save Changes';
@@ -393,6 +446,7 @@
                 document.getElementById('task-title').value = taskData.title;
                 document.getElementById('task-desc').value = taskData.description || '';
                 document.getElementById('task-date').value = taskData.taskDate;
+                document.getElementById('task-time').value = taskData.taskTime && taskData.taskTime !== 'null' ? taskData.taskTime.substring(0, 5) : '';
                 document.getElementById('task-category').value = taskData.category;
                 document.getElementById('task-urgency').value = taskData.urgency;
                 document.getElementById('task-recurrence').value = taskData.recurrencePattern !== 'null' && taskData.recurrencePattern ? taskData.recurrencePattern : '';
@@ -401,12 +455,14 @@
                 form.action = `/tasks/create?redirectDate=[[${#temporals.format(selectedDate, 'yyyy-MM-dd')}]]`;
                 submitBtn.innerHTML = '<i class="fa-solid fa-plus"></i> Create Task';
                 form.reset();
+                dateAutoManaged = true;
 
                 const selectedDateStr = "[[${#temporals.format(selectedDate, 'yyyy-MM-dd')}]]";
                 const dateInput = document.getElementById('task-date');
                 if (dateInput) {
                     dateInput.value = selectedDateStr;
                 }
+                applyCategoryDateDefault();
             }
             overlay.classList.add('open');
             document.getElementById('task-title').focus();
@@ -415,6 +471,8 @@
         function closeModal() {
             document.getElementById('task-modal-overlay').classList.remove('open');
             document.getElementById('create-task-form').reset();
+            isEditingTask = false;
+            dateAutoManaged = true;
         }
 
         function handleOverlayClick(event) {
@@ -440,6 +498,19 @@
 
         // Auto-remove static toasts on page load after 4 seconds
         document.addEventListener("DOMContentLoaded", () => {
+            const categoryInput = document.getElementById('task-category');
+            const dateInput = document.getElementById('task-date');
+
+            if (categoryInput) {
+                categoryInput.addEventListener('change', applyCategoryDateDefault);
+            }
+
+            if (dateInput) {
+                dateInput.addEventListener('input', () => {
+                    dateAutoManaged = false;
+                });
+            }
+
             const toasts = document.querySelectorAll('#toast-container .toast-card');
             toasts.forEach(toast => {
                 setTimeout(() => {
