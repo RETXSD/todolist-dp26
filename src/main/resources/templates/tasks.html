@@ -8,7 +8,7 @@
     <title>My Tasks — [[${appName}]]</title>
     <link rel="stylesheet" th:href="@{/Global.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <!-- CSRF Meta for AJAX requests -->
+
     <meta name="_csrf" th:content="${_csrf.token}" />
     <meta name="_csrf_header" th:content="${_csrf.headerName}" />
 </head>
@@ -16,7 +16,7 @@
 <body>
     <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
 
-    <!-- Toast Notifications Container -->
+
     <div class="toast-container" id="toast-container">
         <div th:each="msg : ${notifications}" class="toast-card">
             <div class="toast-icon"><i class="fa-solid fa-circle-check"></i></div>
@@ -26,7 +26,7 @@
     </div>
 
     <div class="app-shell">
-        <!-- SIDEBAR -->
+
         <aside class="sidebar" id="app-sidebar">
             <div class="sidebar-top">
                 <div class="sidebar-brand" th:onclick="|location.href='@{/tasks}'|">
@@ -72,7 +72,7 @@
 
                 <div class="nav-divider"></div>
 
-                <!-- Schedule / Calendar section -->
+
                 <div th:if="${not #lists.isEmpty(taskDates)}" class="sidebar-projects">
                     <div class="nav-label">My Schedule</div>
                     <div style="display: flex; flex-direction: column; gap: 4px; padding: 0 4px;">
@@ -86,7 +86,7 @@
                     </div>
                 </div>
 
-                <!-- Undo Action Command Button -->
+
                 <div class="nav-divider"></div>
                 <div style="padding: 8px 10px;">
                     <form th:action="@{/tasks/undo(date=${#temporals.format(selectedDate, 'yyyy-MM-dd')})}"
@@ -121,9 +121,9 @@
             </div>
         </aside>
 
-        <!-- MAIN CONTENT AREA -->
+
         <main class="main-content">
-            <!-- TOPBAR -->
+
             <header class="topbar">
                 <button class="btn-sidebar-toggle" onclick="toggleSidebar()" id="mobile-hamburger-btn">
                     <i class="fa-solid fa-bars"></i>
@@ -134,14 +134,14 @@
                 <div class="topbar-actions">
                     <div
                         style="font-size: 13px; font-weight: 700; background: var(--g-lime); border: 2px solid var(--g-black); border-radius: var(--r-xs); padding: 4px 10px; box-shadow: var(--shadow-2);">
-                        asdjasjdajshdkajshdkj
+                        why duck have 2 legs
                     </div>
                 </div>
             </header>
 
-            <!-- PAGE CONTENT -->
+
             <div class="page-content">
-                <!-- Date Navigation Header -->
+
                 <div class="date-nav">
                     <a th:href="@{/tasks(date=${#temporals.format(selectedDate.minusDays(1), 'yyyy-MM-dd')})}"
                         class="date-nav-btn" id="date-prev-btn">
@@ -160,7 +160,7 @@
                     </a>
                 </div>
 
-                <!-- Stats Bar -->
+
                 <section class="stats-bar" id="tasks-stats-bar">
                     <div class="stat-card">
                         <div class="stat-icon stat-icon-total"><i class="fa-solid fa-list-check"></i></div>
@@ -195,9 +195,9 @@
                     </div>
                 </section>
 
-                <!-- Filters & Sorting Options -->
+
                 <div class="filter-bar">
-                    <!-- Sorting Chips -->
+
                     <span
                         style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--g-muted); margin-right: 4px;">Sort:</span>
                     <a th:href="@{/tasks(date=${#temporals.format(selectedDate, 'yyyy-MM-dd')}, sort='urgency')}"
@@ -219,7 +219,7 @@
                         <i class="fa-solid fa-clock-rotate-left"></i> Date Created
                     </a>
 
-                    <!-- Reset Filters -->
+
                     <a th:if="${param.category != null || param.urgency != null || param.sort != null}"
                         th:href="@{/tasks(date=${#temporals.format(selectedDate, 'yyyy-MM-dd')})}" class="filter-chip"
                         style="background: #fff0f0; border-color: var(--g-error); color: var(--g-error);"
@@ -228,13 +228,13 @@
                     </a>
                 </div>
 
-                <!-- Task List -->
+
                 <section>
                     <div class="task-section-title">
                         Tasks List
                     </div>
 
-                    <!-- Empty State -->
+
                     <div th:if="${#lists.isEmpty(tasks)}" class="empty-state" id="tasks-empty-state">
                         <div class="empty-icon"><i class="fa-regular fa-face-smile-beam"
                                 style="font-size:64px; color: var(--g-lime);"></i></div>
@@ -244,21 +244,21 @@
                             Task</button>
                     </div>
 
-                    <!-- Active / Incomplete & Completed Tasks list -->
+
                     <div th:if="${not #lists.isEmpty(tasks)}" class="task-list" id="tasks-container">
                         <div th:each="task : ${tasks}" class="task-card"
                             th:classappend="${task.statusCssClass}" th:data-urgency="${task.urgency}"
                             th:data-date="${task.taskDate}" th:data-state="${task.statusLabel}"
                             th:data-org-completed="${task.completed}">
 
-                            <!-- Checkbox -->
+
                             <div style="display: flex; align-items: center;">
                                 <input type="checkbox" class="task-check" th:checked="${task.completed}"
                                     th:id="'task-check-' + ${task.id}" th:onchange="|toggleTaskStatus(${task.id})|">
                             </div>
 
                             <div class="task-body">
-                                <!-- Show Decorator pattern displayLabel -->
+
                                 <div class="task-title" th:text="${task.displayLabel}">Task Display Label</div>
                                 <div class="task-desc" th:text="${task.description}">Task Description</div>
                                 <div class="task-meta">
@@ -274,7 +274,7 @@
                                 </div>
                             </div>
 
-                            <!-- Actions -->
+
                             <div class="task-actions">
                                 <button type="button" class="btn-icon" aria-label="Edit Task"
                                     th:id="'task-edit-' + ${task.id}" th:data-id="${task.id}"
@@ -302,7 +302,7 @@
         </main>
     </div>
 
-    <!-- ADD TASK MODAL OVERLAY -->
+
     <div class="modal-overlay" id="task-modal-overlay" onclick="handleOverlayClick(event)">
         <div class="modal">
             <div class="modal-header">
@@ -481,14 +481,14 @@
             }
         }
 
-        // Keyboard accessibility for Modal Escape key
+
         window.addEventListener('keydown', function (event) {
             if (event.key === 'Escape') {
                 closeModal();
             }
         });
 
-        // Mobile Sidebar Drawer Toggle
+
         function toggleSidebar() {
             const sidebar = document.getElementById('app-sidebar');
             const overlay = document.getElementById('sidebar-overlay');
@@ -496,7 +496,7 @@
             overlay.classList.toggle('open');
         }
 
-        // Auto-remove static toasts on page load after 4 seconds
+
         document.addEventListener("DOMContentLoaded", () => {
             const categoryInput = document.getElementById('task-category');
             const dateInput = document.getElementById('task-date');
@@ -532,7 +532,7 @@
         `;
             container.appendChild(toast);
 
-            // Auto remove after 4 seconds
+
             setTimeout(() => {
                 toast.classList.add('fade-out');
                 setTimeout(() => toast.remove(), 400);
@@ -547,7 +547,7 @@
             }
         }
 
-        // AJAX Task Status Toggle (Optimistic Update)
+
         function toggleTaskStatus(taskId) {
             const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
             const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
@@ -556,7 +556,7 @@
             const isChecked = checkbox.checked;
             const card = checkbox.closest('.task-card');
 
-            // Optimistic UI updates
+
             if (isChecked) {
                 card.classList.add('completed');
             } else {
@@ -581,10 +581,10 @@
                     if (Array.isArray(notifications)) {
                         notifications.forEach(msg => showToast(msg));
                     }
-                    // Trigger dynamic log refresh if needed - for now standard page state is updated
+
                 })
                 .catch(error => {
-                    // Revert state on failure
+
                     checkbox.checked = !isChecked;
                     if (!isChecked) {
                         card.classList.add('completed');
@@ -597,7 +597,6 @@
         }
 
         const initialOverdueCount = [[${overdueCount}]];
-
         function updateStats() {
             const totalCount = document.querySelectorAll('.task-card').length;
             const completedCount = document.querySelectorAll('.task-card.completed').length;
@@ -629,7 +628,7 @@
                         } else {
                             card.classList.add('overdue');
                         }
-                        
+
                         const isCompletedOrg = card.getAttribute('data-org-completed') === 'true';
                         if (isCompletedOrg && !isCompletedNow) {
                             delta += 1;

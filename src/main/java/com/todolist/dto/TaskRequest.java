@@ -3,9 +3,7 @@ package com.todolist.dto;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-/**
- * DTO for creating/editing a task.
- */
+
 public class TaskRequest {
 
     private String title;

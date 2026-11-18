@@ -6,11 +6,7 @@ import org.springframework.stereotype.Component;
 import java.util.Comparator;
 import java.util.List;
 
-/**
- * STRATEGY PATTERN — Concrete Strategy: Sort by Category
- *
- * Sorts tasks alphabetically by their category name (PERSONAL → SHOPPING → WORK).
- */
+
 @Component("sortByCategory")
 public class SortByCategory implements SortStrategy {
 

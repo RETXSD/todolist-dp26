@@ -11,10 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-/**
- * Spring Security configuration.
- * Uses session-based form login (no JWT) since this is a Thymeleaf web app.
- */
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -29,7 +26,7 @@ public class SecurityConfig {
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
-        // Spring Boot 4.1 / Spring Security 6.x: constructor takes UserDetailsService
+
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userService);
         provider.setPasswordEncoder(passwordEncoder);
         return provider;
@@ -45,9 +42,9 @@ public class SecurityConfig {
         http
             .authenticationProvider(authenticationProvider())
             .authorizeHttpRequests(auth -> auth
-                // Public pages
+
                 .requestMatchers("/", "/register", "/login", "/css/**", "/js/**", "/images/**").permitAll()
-                // All other pages require login
+
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
@@ -62,7 +59,7 @@ public class SecurityConfig {
                 .logoutSuccessUrl("/login?logout=true")
                 .permitAll()
             )
-            // CSRF enabled for Thymeleaf form submissions (default)
+
             .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"));
 
         return http.build();

@@ -1,5 +1,12 @@
 package com.todolist.facade;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
 import com.todolist.config.AppConfig;
 import com.todolist.model.Category;
 import com.todolist.model.Task;
@@ -14,29 +21,7 @@ import com.todolist.pattern.behavioral.observer.TaskEventPublisher;
 import com.todolist.pattern.behavioral.strategy.SortStrategy;
 import com.todolist.pattern.creational.TaskFactory;
 import com.todolist.repository.TaskRepository;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.List;
-
-/**
- * FACADE PATTERN — TaskFacade
- *
- * WHY FACADE:
- * - The controller should not need to know about Factory, Strategy, Command,
- *   Observer, and Repository all at once. That would create massive coupling.
- * - TaskFacade provides a SINGLE, simplified interface that hides the complexity
- *   of all these interacting patterns behind clean, high-level methods.
- * - The controller just calls createTask(), completeTask(), deleteTask(), etc.
- *   and the Facade orchestrates all the moving parts internally.
- *
- * BENEFIT:
- * - Reduces controller complexity dramatically.
- * - Single point of change: if internal pattern structure changes,
- *   only the Facade needs to be updated — not every controller method.
- */
 @Service
 public class TaskFacade {
 
@@ -66,10 +51,6 @@ public class TaskFacade {
         this.sortByCreatedDate = sortByCreatedDate;
     }
 
-    // ----------------------------------------------------------------
-    // 1. Create Task (Factory + Builder + Command + Persist)
-    // ----------------------------------------------------------------
-
     public Task createTask(User user, String title, String description,
                            LocalDate taskDate, String category, String urgency) {
         return createTask(user, title, description, taskDate, null, category, urgency, null);
@@ -82,18 +63,13 @@ public class TaskFacade {
 
     public Task createTask(User user, String title, String description,
                            LocalDate taskDate, LocalTime taskTime, String category, String urgency, String recurrencePattern) {
-        // Factory creates the Task with proper defaults applied
         Task task = taskFactory.createTask(user, title, description, taskDate, taskTime, category, urgency, recurrencePattern);
         CreateTaskCommand cmd = new CreateTaskCommand(task, taskRepository);
         commandHistory.push(cmd);
         Task savedTask = cmd.getTask();
-        eventPublisher.publishTaskCreated(savedTask); // Publish event
+        eventPublisher.publishTaskCreated(savedTask);
         return savedTask;
     }
-
-    // ----------------------------------------------------------------
-    // 1b. Edit Task (Command + Persist)
-    // ----------------------------------------------------------------
 
     public void editTask(Long taskId, String title, String description,
                          LocalDate taskDate, LocalTime taskTime, String category, String urgency, String recurrencePattern) {
@@ -106,47 +82,27 @@ public class TaskFacade {
 
         EditTaskCommand cmd = new EditTaskCommand(task, title, description, taskDate, taskTime, cat, urg, rec, taskRepository);
         commandHistory.push(cmd);
-        eventPublisher.publishTaskEdited(task); // Publish event
+        eventPublisher.publishTaskEdited(task);
     }
-
-    // ----------------------------------------------------------------
-    // 2. Complete Task (Command + Observer)
-    // ----------------------------------------------------------------
 
     public Task completeTask(Long taskId) {
         Task task = findTaskById(taskId);
-        // Command encapsulates the action (with undo support)
         CompleteTaskCommand cmd = new CompleteTaskCommand(task, taskRepository);
-        commandHistory.push(cmd); // Invoker: execute + push to history
-        // Observer: publish event so listeners can react
+        commandHistory.push(cmd);
         eventPublisher.publishTaskCompleted(task);
         return task;
     }
 
-    // ----------------------------------------------------------------
-    // 3. Delete Task (Command + Observer)
-    // ----------------------------------------------------------------
-
     public void deleteTask(Long taskId) {
         Task task = findTaskById(taskId);
-        // Command encapsulates the action (with undo support)
         DeleteTaskCommand cmd = new DeleteTaskCommand(task, taskRepository);
-        commandHistory.push(cmd); // Invoker: execute + push to history
-        // Observer: publish event so listeners can react
+        commandHistory.push(cmd);
         eventPublisher.publishTaskDeleted(task);
     }
-
-    // ----------------------------------------------------------------
-    // 4. Undo Last Action (Command)
-    // ----------------------------------------------------------------
 
     public void undoLastAction() {
         commandHistory.undo();
     }
-
-    // ----------------------------------------------------------------
-    // 5-7. Get Tasks (filtered queries)
-    // ----------------------------------------------------------------
 
     public List<Task> getTasksByDate(Long userId, LocalDate date) {
         return taskRepository.findByUserIdAndTaskDate(userId, date);
@@ -162,26 +118,17 @@ public class TaskFacade {
         return taskRepository.findByUserIdAndTaskDateAndUrgency(userId, date, urg);
     }
 
-    // ----------------------------------------------------------------
-    // 8. Get Tasks Sorted (Strategy Pattern)
-    // ----------------------------------------------------------------
-
     public List<Task> getTasksSorted(Long userId, LocalDate date, String sortType) {
         List<Task> tasks = taskRepository.findByUserIdAndTaskDate(userId, date);
 
-        // Pick the correct Strategy at runtime based on the sortType parameter
         SortStrategy strategy = switch (sortType.toLowerCase()) {
             case "category"    -> sortByCategory;
             case "date"        -> sortByCreatedDate;
-            default            -> sortByUrgency; // default: sort by urgency
+            default            -> sortByUrgency;
         };
 
         return strategy.sort(tasks);
     }
-
-    // ----------------------------------------------------------------
-    // Helper
-    // ----------------------------------------------------------------
 
     public Task findTaskById(Long taskId) {
         return taskRepository.findById(taskId)

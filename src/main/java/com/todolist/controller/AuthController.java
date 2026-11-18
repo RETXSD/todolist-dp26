@@ -9,10 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-/**
- * Handles authentication pages: login and registration.
- * Uses Thymeleaf templates (session-based, not JWT).
- */
+
 @Controller
 public class AuthController {
 
@@ -22,18 +19,12 @@ public class AuthController {
         this.userService = userService;
     }
 
-    // ----------------------------------------------------------------
-    // Root path redirect
-    // ----------------------------------------------------------------
 
     @GetMapping("/")
     public String indexRedirect() {
         return "redirect:/tasks";
     }
 
-    // ----------------------------------------------------------------
-    // Login page
-    // ----------------------------------------------------------------
 
     @GetMapping("/login")
     public String loginPage(@RequestParam(required = false) String error,
@@ -50,9 +41,6 @@ public class AuthController {
         return "login";
     }
 
-    // ----------------------------------------------------------------
-    // Register page
-    // ----------------------------------------------------------------
 
     @GetMapping("/register")
     public String registerPage(Model model) {

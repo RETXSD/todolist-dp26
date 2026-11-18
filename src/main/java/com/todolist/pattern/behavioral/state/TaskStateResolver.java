@@ -4,9 +4,7 @@ import com.todolist.model.Task;
 
 import java.time.LocalDate;
 
-/**
- * STATE PATTERN - Chooses the current state object for a task.
- */
+
 public class TaskStateResolver {
 
     private TaskStateResolver() {

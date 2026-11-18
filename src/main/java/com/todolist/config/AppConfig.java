@@ -11,31 +11,11 @@ import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Map;
 
-/**
- * SINGLETON PATTERN — AppConfig
- *
- * WHY SINGLETON:
- * - Application settings and task rules must be shared across the entire
- *   application as one consistent source of truth.
- * - Spring @Configuration + @Bean creates beans as singletons by default —
- *   meaning Spring's IoC container will only instantiate each bean ONCE
- *   and reuse the same instance wherever it's injected.
- *
- * BENEFIT:
- * - Ensures Factory and Strategy use the same task rules.
- * - Avoids duplicated urgency/date logic in multiple classes.
- *
- * PURE JAVA SINGLETON (inner static class):
- * - Uses double-checked locking for thread-safe lazy initialization.
- * - Guarantees only one instance of ConfigHolder is created, even in multi-threaded environments.
- */
+
 @Configuration
 public class AppConfig {
 
-    /**
-     * PasswordEncoder bean defined here (not in SecurityConfig) to avoid
-     * circular dependency: SecurityConfig → UserService → PasswordEncoder → SecurityConfig.
-     */
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new PasswordEncoder() {
@@ -62,9 +42,7 @@ public class AppConfig {
         return "4.10.2";
     }
 
-    // -------------------------------------------------------
-    // Pure Java Singleton using Double-Checked Locking
-    // -------------------------------------------------------
+
     public static class ConfigHolder {
 
         private static volatile ConfigHolder instance;
@@ -89,10 +67,7 @@ public class AppConfig {
             );
         }
 
-        /**
-         * Double-checked locking ensures thread-safe initialization
-         * without the overhead of synchronizing every call.
-         */
+
         public static ConfigHolder getInstance() {
             if (instance == null) {
                 synchronized (ConfigHolder.class) {

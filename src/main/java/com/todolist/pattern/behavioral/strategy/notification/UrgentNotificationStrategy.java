@@ -1,20 +1,16 @@
 package com.todolist.pattern.behavioral.strategy.notification;
 
-import com.todolist.dto.ReminderNotification;
-import com.todolist.model.Task;
-import com.todolist.model.Urgency;
-import org.springframework.stereotype.Component;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * STRATEGY PATTERN - concrete notification rule for urgent tasks.
- *
- * Urgent tasks produce two reminders: one hour before and one hour after the
- * task time. Completed tasks are ignored by supports().
- */
+import org.springframework.stereotype.Component;
+
+import com.todolist.dto.ReminderNotification;
+import com.todolist.model.Task;
+import com.todolist.model.Urgency;
+
+
 @Component
 public class UrgentNotificationStrategy implements NotificationStrategy {
 

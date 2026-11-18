@@ -3,9 +3,7 @@ package com.todolist.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * Plain Java model for application users.
- */
+
 public class User {
 
     private Long id;

@@ -1,8 +1,6 @@
 package com.todolist.pattern.behavioral.state;
 
-/**
- * STATE PATTERN - Concrete state for completed tasks.
- */
+
 public class CompletedTaskState implements TaskState {
 
     @Override

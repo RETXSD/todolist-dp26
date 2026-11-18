@@ -7,12 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.Comparator;
 import java.util.List;
 
-/**
- * STRATEGY PATTERN — Concrete Strategy: Sort by Urgency
- *
- * Sorts tasks in the order: URGENT → PRIORITY → OPTIONAL.
- * Tasks with the same urgency are sub-sorted by createdAt (newest first).
- */
+
 @Component("sortByUrgency")
 public class SortByUrgency implements SortStrategy {
 

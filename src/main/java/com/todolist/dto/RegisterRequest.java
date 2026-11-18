@@ -1,8 +1,6 @@
 package com.todolist.dto;
 
-/**
- * DTO for registration form submission.
- */
+
 public class RegisterRequest {
 
     private String username;

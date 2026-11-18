@@ -1,8 +1,6 @@
 package com.todolist.pattern.behavioral.state;
 
-/**
- * STATE PATTERN - Concrete state for unfinished tasks past their date.
- */
+
 public class OverdueTaskState implements TaskState {
 
     @Override

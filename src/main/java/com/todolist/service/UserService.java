@@ -7,10 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-/**
- * Service for User registration and Spring Security authentication.
- * Implements UserDetailsService so Spring Security can load users from the DB.
- */
+
 @Service
 public class UserService implements UserDetailsService {
 
@@ -20,11 +17,7 @@ public class UserService implements UserDetailsService {
         this.userRepository  = userRepository;
     }
 
-    /**
-     * Register a new user with a plain-text password for the assignment demo.
-     *
-     * @throws IllegalArgumentException if username or email already taken
-     */
+
     public User register(String username, String email, String password) {
         if (userRepository.existsByUsername(username)) {
             throw new IllegalArgumentException("Username '" + username + "' is already taken.");
@@ -42,17 +35,14 @@ public class UserService implements UserDetailsService {
         return userRepository.save(newUser);
     }
 
-    /**
-     * Load user by username for Spring Security authentication.
-     * Called automatically during the login process.
-     */
+
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         User user = findByUsernameOrEmail(login)
                 .orElseThrow(() -> new UsernameNotFoundException(
                     "User not found: " + login));
 
-        // Return a Spring Security User object with one simple authority.
+
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),
@@ -60,9 +50,7 @@ public class UserService implements UserDetailsService {
         );
     }
 
-    /**
-     * Find a user entity by username (used internally after authentication).
-     */
+
     public User findByUsername(String username) {
         return findByUsernameOrEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));

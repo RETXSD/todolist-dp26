@@ -8,11 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.todolist.model.Task;
 
-/**
- * STRATEGY PATTERN — Concrete Strategy: Sort by Created Date
- *
- * Sorts tasks descending by createdAt (newest tasks first).
- */
+
 @Component("sortByCreatedDate")
 public class SortByCreatedDate implements SortStrategy {
 

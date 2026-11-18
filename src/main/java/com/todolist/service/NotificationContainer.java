@@ -7,10 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Stores temporary user-facing notification messages in the HTTP session.
- * Handled by the Observer listener to notify the client when actions occur.
- */
+
 @Component
 @SessionScope
 public class NotificationContainer implements Serializable {

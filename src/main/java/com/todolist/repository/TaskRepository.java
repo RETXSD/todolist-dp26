@@ -23,10 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Manual JDBC repository for tasks.
- * Every query is written explicitly so persistence stays visible and framework-free.
- */
+
 @Repository
 public class TaskRepository {
 

@@ -3,15 +3,7 @@ package com.todolist.pattern.behavioral.command;
 import com.todolist.model.Task;
 import com.todolist.repository.TaskRepository;
 
-/**
- * COMMAND PATTERN — Concrete Command: Create Task
- *
- * Role: CONCRETE COMMAND
- *
- * Encapsulates the "create task" action.
- * On execute(), saves the task to the database.
- * On undo(), deletes the task from the database.
- */
+
 public class CreateTaskCommand implements TaskCommand {
 
     private final TaskRepository taskRepository;

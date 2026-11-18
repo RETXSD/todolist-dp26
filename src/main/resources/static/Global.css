@@ -1,8 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap');
 
-/* ============================================================
-   DESIGN TOKENS — Neubrutalism (Grass.io inspired)
-   ============================================================ */
+
 :root {
   --g-black:      #000000;
   --g-white:      #ffffff;
@@ -31,13 +29,11 @@
 
   --font: 'DM Sans', sans-serif;
 
-  /* Sidebar */
+
   --sidebar-w: 240px;
 }
 
-/* ============================================================
-   RESET & BASE
-   ============================================================ */
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html { font-size: 16px; }
@@ -54,17 +50,13 @@ a { color: inherit; text-decoration: none; }
 button { cursor: pointer; font-family: var(--font); }
 input, textarea, select { font-family: var(--font); }
 
-/* ============================================================
-   APP SHELL — Sidebar + Main layout
-   ============================================================ */
+
 .app-shell {
   display: flex;
   min-height: 100vh;
 }
 
-/* ============================================================
-   SIDEBAR
-   ============================================================ */
+
 .sidebar {
   width: var(--sidebar-w);
   background: var(--g-white);
@@ -112,7 +104,7 @@ input, textarea, select { font-family: var(--font); }
   color: var(--g-navy);
 }
 
-/* Add task button */
+
 .btn-add-task {
   display: flex;
   align-items: center;
@@ -137,7 +129,7 @@ input, textarea, select { font-family: var(--font); }
   box-shadow: none;
 }
 
-/* Sidebar nav */
+
 .sidebar-nav {
   padding: 12px 8px;
   flex: 1;
@@ -198,7 +190,7 @@ input, textarea, select { font-family: var(--font); }
   margin: 8px 0;
 }
 
-/* Projects section */
+
 .sidebar-projects { padding: 0 8px 8px; }
 .projects-header {
   display: flex; align-items: center; justify-content: space-between;
@@ -206,7 +198,7 @@ input, textarea, select { font-family: var(--font); }
   margin-bottom: 4px;
 }
 
-/* Sidebar bottom */
+
 .sidebar-bottom {
   padding: 12px;
   border-top: 2px solid var(--g-border);
@@ -232,9 +224,7 @@ input, textarea, select { font-family: var(--font); }
 .user-name { font-size: 13px; font-weight: 700; }
 .user-email { font-size: 10px; color: var(--g-muted); }
 
-/* ============================================================
-   MAIN CONTENT
-   ============================================================ */
+
 .main-content {
   margin-left: var(--sidebar-w);
   flex: 1;
@@ -243,7 +233,7 @@ input, textarea, select { font-family: var(--font); }
   flex-direction: column;
 }
 
-/* Top bar */
+
 .topbar {
   display: flex;
   align-items: center;
@@ -264,15 +254,13 @@ input, textarea, select { font-family: var(--font); }
 
 .topbar-actions { display: flex; align-items: center; gap: 8px; }
 
-/* Page content */
+
 .page-content {
   padding: 32px;
   flex: 1;
 }
 
-/* ============================================================
-   FILTER BAR
-   ============================================================ */
+
 .filter-bar {
   display: flex;
   align-items: center;
@@ -304,9 +292,7 @@ input, textarea, select { font-family: var(--font); }
   box-shadow: var(--shadow-1);
 }
 
-/* ============================================================
-   DATE NAVIGATOR
-   ============================================================ */
+
 .date-nav {
   display: flex;
   align-items: center;
@@ -339,9 +325,7 @@ input, textarea, select { font-family: var(--font); }
   cursor: pointer;
 }
 
-/* ============================================================
-   TASK STATS BAR
-   ============================================================ */
+
 .stats-bar {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -381,9 +365,7 @@ input, textarea, select { font-family: var(--font); }
 .stat-value { font-size: 22px; font-weight: 700; color: var(--g-black); }
 .stat-label { font-size: 11px; color: var(--g-muted); font-weight: 500; }
 
-/* ============================================================
-   TASK LIST
-   ============================================================ */
+
 .task-section-title {
   font-size: 11px;
   font-weight: 700;
@@ -434,12 +416,12 @@ input, textarea, select { font-family: var(--font); }
   color: #c53030;
 }
 
-/* Urgency left border accent */
+
 .task-card[data-urgency="URGENT"]   { border-left: 5px solid #cc0000; }
 .task-card[data-urgency="PRIORITY"] { border-left: 5px solid #f59e0b; }
 .task-card[data-urgency="OPTIONAL"] { border-left: 5px solid var(--g-lime); }
 
-/* Checkbox */
+
 .task-check {
   width: 20px; height: 20px;
   border: 2px solid var(--g-black);
@@ -471,7 +453,7 @@ input, textarea, select { font-family: var(--font); }
   top: 0; left: 3px;
 }
 
-/* Task body */
+
 .task-body { flex: 1; min-width: 0; }
 .task-title {
   font-size: 14px;
@@ -498,7 +480,7 @@ input, textarea, select { font-family: var(--font); }
   flex-wrap: wrap;
 }
 
-/* Badges */
+
 .badge {
   display: inline-flex;
   align-items: center;
@@ -518,7 +500,7 @@ input, textarea, select { font-family: var(--font); }
 .badge-personal { background: #fdf4ff; color: #7e22ce; border-color: #d8b4fe; }
 .badge-shopping { background: #fff7ed; color: #c2410c; border-color: #fed7aa; }
 
-/* Task actions */
+
 .task-actions {
   display: flex;
   align-items: center;
@@ -543,9 +525,7 @@ input, textarea, select { font-family: var(--font); }
 .btn-icon:active { transform: translate(2px, 2px); box-shadow: none; }
 .btn-icon.danger:hover { background: #fff0f0; border-color: #cc0000; }
 
-/* ============================================================
-   EMPTY STATE
-   ============================================================ */
+
 .empty-state {
   display: flex;
   flex-direction: column;
@@ -576,9 +556,7 @@ input, textarea, select { font-family: var(--font); }
   max-width: 300px;
 }
 
-/* ============================================================
-   MODAL (Add Task)
-   ============================================================ */
+
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -630,9 +608,7 @@ input, textarea, select { font-family: var(--font); }
 }
 .modal-close:hover { background: var(--g-lime-soft); }
 
-/* ============================================================
-   FORM ELEMENTS
-   ============================================================ */
+
 .form-group {
   display: flex;
   flex-direction: column;
@@ -678,7 +654,7 @@ input, textarea, select { font-family: var(--font); }
   gap: 12px;
 }
 
-/* Error */
+
 .form-error {
   font-size: 11px;
   color: var(--g-error);
@@ -690,9 +666,7 @@ input, textarea, select { font-family: var(--font); }
   margin-bottom: 12px;
 }
 
-/* ============================================================
-   BUTTONS
-   ============================================================ */
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -749,9 +723,7 @@ input, textarea, select { font-family: var(--font); }
   justify-content: flex-end;
 }
 
-/* ============================================================
-   AUTH PAGES (Login & Register)
-   ============================================================ */
+
 .auth-page {
   min-height: 100vh;
   background: var(--g-bg);
@@ -852,9 +824,7 @@ input, textarea, select { font-family: var(--font); }
 .alert-error   { background: #fff0f0; border-color: var(--g-error); color: var(--g-error); }
 .alert-success { background: var(--g-lime-soft); border-color: #3a5a00; color: #3a5a00; }
 
-/* ============================================================
-   UNDO TOAST
-   ============================================================ */
+
 .undo-bar {
   position: fixed;
   bottom: 24px;
@@ -879,9 +849,7 @@ input, textarea, select { font-family: var(--font); }
   to   { transform: translateX(-50%) translateY(0);    opacity: 1; }
 }
 
-/* ============================================================
-   TOAST NOTIFICATIONS (Observer Banners)
-   ============================================================ */
+
 .toast-container {
   position: fixed;
   top: 24px;
@@ -944,9 +912,7 @@ input, textarea, select { font-family: var(--font); }
   to   { transform: translateX(0);    opacity: 1; }
 }
 
-/* ============================================================
-   DESIGN PATTERN CONSOLE
-   ============================================================ */
+
 .pattern-console-container {
   margin: 12px 8px;
   border: 2px solid var(--g-black);
@@ -997,9 +963,7 @@ input, textarea, select { font-family: var(--font); }
   padding: 10px 0;
 }
 
-/* ============================================================
-   RESPONSIVE & HAMBURGER DRAWER
-   ============================================================ */
+
 .btn-sidebar-toggle {
   display: none;
   width: 36px; height: 36px;

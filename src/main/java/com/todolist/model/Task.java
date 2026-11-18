@@ -4,10 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-/**
- * Plain Java model for tasks.
- * Supports Builder Pattern via a manual TaskBuilder for clean object construction.
- */
+
 public class Task {
 
     private Long id;

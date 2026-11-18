@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * Shows reminder notifications generated from urgent task notification strategies.
- */
+
 @Controller
 public class NotificationController {
 

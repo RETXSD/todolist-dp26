@@ -10,9 +10,7 @@ import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 
-/**
- * Generates task reminders by delegating rule decisions to NotificationStrategy.
- */
+
 @Service
 public class TaskReminderService {
 

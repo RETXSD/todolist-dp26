@@ -1,23 +1,19 @@
 package com.todolist.pattern.behavioral.observer;
 
-import com.todolist.model.Task;
-import com.todolist.service.PatternActivityLog;
-import com.todolist.service.NotificationContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-/**
- * OBSERVER PATTERN — Concrete Observer (Listener)
- *
- * Role: CONCRETE OBSERVER — reacts directly to event callbacks from the Subject.
- * Writes logs to session-scoped PatternActivityLog and user notifications to NotificationContainer.
- */
+import com.todolist.model.Task;
+import com.todolist.service.NotificationContainer;
+import com.todolist.service.PatternActivityLog;
+
+
 @Component
 public class TaskNotificationListener implements TaskObserver {
 
     private static final Logger log = LoggerFactory.getLogger(TaskNotificationListener.class);
-    
+
     private final PatternActivityLog activityLog;
     private final NotificationContainer notificationContainer;
 

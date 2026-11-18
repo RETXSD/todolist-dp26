@@ -14,10 +14,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-/**
- * Manual JDBC repository for users.
- * No Spring Data JPA, no Hibernate, no generated query methods.
- */
+
 @Repository
 public class UserRepository {
 

@@ -4,10 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-/**
- * DTO for sending task data back to the view/client.
- * Includes displayLabel from the Decorator Pattern.
- */
+
 public class TaskResponse {
 
     private Long id;
